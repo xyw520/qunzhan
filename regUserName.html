@@ -1,0 +1,116 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+
+		<style>
+			.p_wrap {
+				width: 90%;
+				margin: 0 auto;
+				margin-top: 20%;
+				background-color: white;
+				border-radius: 5%;
+				padding: 15px;
+			}
+			
+			.p_text {
+				font-size: 24px;
+				color: #777;
+				text-align: center;
+				margin: 20px 0px 40px;
+			}
+			
+			#niceName {
+				border: none;
+				border-bottom: 1px solid #61affe;
+				text-align: center;
+				margin-bottom: 30px;
+			}
+			
+			#p_btn {
+				width: 100%;
+				margin: 0 auto;
+				background-color: #61affe;
+				color: white;
+				border: none;
+				padding: 10px;
+				font-size: 18px;
+				margin-bottom: 60px;
+			}
+			
+			#infoText,
+			#countDown {
+				text-align: center;
+				margin-bottom: 30px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">注册</h1>
+		</header>
+		<div class="mui-content">
+			<div class='p_wrap'>
+				<div class="p_text">请输入您的昵称</div>
+				<input type="text" name="" id="niceName" value="" placeholder="" />
+				<div id='countDown' disabled="disabled">
+
+				</div>
+				<div id='infoText'>
+
+				</div>
+				<button type="button" id='p_btn'>确认</button>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/myApp.js"></script>
+
+		<script type="text/javascript">
+			(function($, doc) {
+					$.init({
+							beforeback: function() {
+								
+								return true;
+							}
+						}); 
+						
+						$.plusReady(function() {
+							var niceName = doc.getElementById('niceName');
+							var info = doc.getElementById('infoText');
+							var btn = doc.getElementById('p_btn');
+							
+							btn.addEventListener('tap', function() {
+								if(app.strtrim(niceName.value) == '') {
+									info.innerHTML = '<span style="color:red">提示：昵称不能为空</span>';
+									niceName.value = '';
+									return;
+								} else {
+									info.innerHTML = '';
+									app.regPhoneNumber(niceName.value, function(data) {
+										if(data) {
+											//									alert(data.message);
+											mui.toast(data.message + "3秒后自动跳转到首页");
+												timer = setInterval(function() {
+												mui.back();	
+												plus.webview.open('loginPhoneNumber.html', 'loginPhoneNumber', {}, 'slide-in-right', 200);
+											}, 3000)
+											
+										}
+									});
+								}
+
+							});
+
+						});
+
+					}(mui, document));
+		</script>
+	</body>
+
+</html>

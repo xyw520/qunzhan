@@ -1,0 +1,251 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+
+		<style>
+			#p_wrap {
+				width: 90%;
+				margin: 0 auto;
+				margin-top: 20%;
+				background-color: white;
+				border-radius: 5%;
+				padding: 15px;
+			}
+			
+			.p_text {
+				font-size: 24px;
+				color: #777;
+				text-align: center;
+				margin: 20px 0px 40px;
+			}
+			
+			#phone {
+				border: none;
+				border-bottom: 1px solid #61affe;
+				text-align: center;
+				margin-bottom: 30px;
+				padding-bottom: 20px;
+			}
+			
+			#p_btn {
+				width: 100%;
+				margin: 0 auto;
+				background-color: #61affe;
+				color: white;
+				border: none;
+				padding: 10px;
+				font-size: 18px;
+				margin-bottom: 60px;
+			}
+			
+			#infoText {
+				text-align: center;
+				margin-bottom: 30px;
+			}
+			
+			#valid {
+				text-align: center;
+				overflow: hidden;
+				height: 0;
+			}
+			
+			#valid input {
+				text-align: center;
+				width: 40%;
+				border: none;
+				border-bottom: 1px solid #61affe;
+				padding-bottom: 20px;
+				font-size: 14px;
+			}
+			
+			.regLink {
+				text-align: center;
+			}
+			
+			.regLink a {
+				border-top: 1px solid #777;
+				padding: 10px;
+				font-size: 14px;
+				color: #777;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <h1 class="mui-title">登录</h1>
+		</header>
+		<div class="mui-content">
+			<div id='p_wrap'>
+				<div class="p_text">您的手机号是？</div>
+				<input type="text" name="" id="phone" value="15574893008" placeholder="请输入本人实名认证手机号" />
+				<div id='infoText'></div>
+				<div id="valid">
+					<span>验证码：</span>
+					<input type="text" name="" id="validCode" value="123456" placeholder="请输入验证码" />
+					<span id="countDown"></span>
+				</div>
+
+				<button type="button" id='p_btn'>获取验证码</button>
+
+				<div class="regLink">
+					<a id='reg'>注册</a>|
+					<a>其他</a>
+				</div>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/myApp.js"></script>
+		<script type="text/javascript">
+		</script>
+		<script type="text/javascript">
+			(function($, doc) {
+				$.init();
+				$.plusReady(function() {
+					
+					//自动登录
+					var settings=app.getSettings();
+					settings.autoLogin=true;
+					var state=app.getState();
+					console.log('state.token:'+state.token);					
+					
+					if(settings.autoLogin && state.token){
+						app.loadUserInfo(function(data){
+							if(data){
+								mui.toast('自动登录失败');
+							}else{
+								plus.webview.open('index.html','index',{},'none',0,function(){mui.toast('已进入主页')});
+							}
+						});
+					}
+					
+					var phone = doc.getElementById('phone');
+					var info = doc.getElementById('infoText');
+					var btn = doc.getElementById('p_btn');
+					var valid = doc.getElementById('valid');
+					var validCode = doc.getElementById('validCode');
+					var reg = doc.getElementById('reg');
+
+					//打开注册页面
+					reg.addEventListener('tap', function() {
+
+						plus.webview.open('regPhoneNumber.html', 'regPhoneNumber', {
+							'popGesture': 'close'
+						}, 'slide-in-left', 200);
+
+					});
+
+					mui('#p_wrap').on('tap', 'button', btnNext);
+
+					//手机号登录  “下一步” 按钮的点击事件执行的方法
+					function btnNext() {
+						var reg = '^1(3[0-9]|4[57]|5[0-35-9]|8[0-9]|70)\\d{8}$';
+						app.checkMyBox(reg, phone, function(err) {
+							if(err) {
+								info.innerHTML = '<span style="color:red">提示：手机号码格式错误！</span>';
+								return;
+							} else {
+								info.innerHTML = '';
+								//用户登录获取验证码
+								app.loginPhoneNumberSend(phone.value, function(data) {
+									if(data) {
+										valid.setAttribute('style', 'height: 100px;transition: 0.5s');
+										validCode.focus();
+										btn.innerText = '确认';
+										//手机号码输入框的值再次发生改变时
+										phone.oninput = function() {
+											validCode.value = '';
+											valid.setAttribute('style', 'overflow: hidden;height: 0;transition: 0.5s');
+											//取消"确认" 按钮的点击事件
+											mui('#p_wrap').off('tap', 'button');
+											//改变按钮的文本
+											btn.innerText = '下一步';
+											//绑定  “下一步” 按钮的点击事件
+											mui('#p_wrap').on('tap', 'button', function() {
+
+												btnNext();
+											});
+
+										}
+
+										//取消获取验证码的点击事件
+										mui('#p_wrap').off('tap', 'button');
+
+										phone = doc.getElementById('phone');
+										validCode = doc.getElementById('validCode');
+
+										//绑定  “确认” 按钮的点击事件
+										mui('#p_wrap').on('tap', 'button', function() {											
+											//手机号，验证码登录
+											app.loginPhoneNumber(phone.value, validCode.value, function(data) {
+												if(data.status=='200') {
+													loadUserinfo();
+													
+												}else{
+													mui.toast(data);
+												}
+											});
+										});
+
+										countDown(3);
+										// 重发   倒计时
+										function countDown(num) {
+											var info = document.getElementById('countDown');
+											var timer = null;
+											timer = setInterval(function() {
+												info.innerHTML = '<span style="color:#777">重发</span><span style="color:red">（' + num + 's）</span>';
+												num = num - 1;
+												if(num <= 0) {
+													clearInterval(timer);
+													info.innerHTML = '<span  style="color:#49cc90">重发</span>';
+
+												}
+											}, 1000);
+											//											document.getElementById('aging').addEventListener('tap',countDown(3));
+											//											document.getElementsByClassName('agin')[0].addEventListener('tap',countDown(3));     
+											info.addEventListener('tap', function() {
+												info.innerHTML = '<span style="color:#777">重发</span><span style="color:red">（' + num + 's）</span>';
+												countDown(3);
+											});
+										}
+									} else {}
+								});
+							}
+						});
+
+					}
+					  
+					/**
+					 *	登录成功以后从服务器获取个人信息  
+					 *  如果获取个人信息失败也算登录失败 ，注销登录信息
+					 */
+					var loadUserinfo = function() {
+						//获取个人信息 并保存
+						app.loadUserInfo(function(err) {
+							if(err) {
+								plus.nativeUI.toast("获取个人信息错误：" + err);
+								return;
+							}
+							plus.nativeUI.toast("恭喜您 登录成功！");
+							//跳转到主页
+							toMain();
+						});
+					};
+					
+					function toMain(){
+						//登录成功跳转到主页													
+						plus.webview.open('index.html','index',{},'zoom-out',500,function(){mui.toast('已进入主页')});
+					}
+
+				});
+
+			}(mui, document));
+		</script>
+	</body>
+
+</html>

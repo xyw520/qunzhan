@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+
+		<style>
+			.p_wrap {
+				width: 90%;
+				margin: 0 auto;
+				margin-top: 20%;
+				background-color: white;
+				border-radius: 5%;
+				padding: 15px;
+			}
+			
+			.p_text {
+				font-size: 24px;
+				color: #777;
+				text-align: center;
+				margin: 20px 0px 40px;
+			}
+			
+			#code {
+				border: none;
+				border-bottom: 1px solid #61affe;
+				text-align: center;
+				margin-bottom: 30px;
+			}
+			
+			#p_btn {
+				width: 100%;
+				margin: 0 auto;
+				background-color: #61affe;
+				color: white;
+				border: none;
+				padding: 10px;
+				font-size: 18px;
+				margin-bottom: 60px;
+			}
+			
+			#infoText,#countDown {
+				text-align: center;
+				margin-bottom: 30px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">注册</h1>
+		</header>
+		<div class="mui-content">
+			<div class='p_wrap'>
+				<div class="p_text">请输入验证码</div>
+				<input type="text" name="" id="code" value="" placeholder="" />
+				<div id='countDown' disabled="disabled">
+
+				</div>
+				<div id='infoText'>
+
+				</div>
+				<button type="button" id='p_btn'>下一步</button>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/myApp.js"></script>
+		<script type="text/javascript">			
+			countDown(3);						
+			function countDown(num) {
+				var info = document.getElementById('countDown');
+				var timer = null;
+				timer = setInterval(function() {
+					info.innerHTML = '<span style="color:#777">重发</span><span style="color:red">（' + num + 's）</span>';
+					num = num - 1;
+					if(num < 0) {
+						clearInterval(timer);
+						info.innerHTML = '<span id="aging" style="color:#49cc90">重发</span>';
+						info.addEventListener('tap',function(){ 
+							info.innerHTML = '<span style="color:#777">重发</span><span style="color:red">（' + num + 's）</span>';
+							countDown(3);
+						});
+					}
+				}, 1000);								
+			}												
+		</script>
+		<script type="text/javascript">
+			(function($, doc) {
+
+				$.init();
+
+				$.plusReady(function() {
+					
+					var code = doc.getElementById('code');
+					var info = doc.getElementById('infoText');
+					var btn = doc.getElementById('p_btn');
+														
+					btn.addEventListener('tap', function() {						
+						app.regPhoneNumberValid(code.value, function(data) {
+							if(data){
+								mui.back();	
+								plus.webview.open('regUserName.html','regUserName', {}, 'slide-in-left', 200);
+							}
+						});
+
+					});
+
+				});
+
+			}(mui, document));
+		</script>
+	</body>
+
+</html>
