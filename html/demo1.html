@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">标题1</h1>
+		</header>
+		<div class="mui-content">
+			<form id="uploadForm">
+				<p>上传文件： <input type="file" name="file" /></ p>
+					<input type="button" value="上传" onclick="doUpload()" />
+			</form>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script src="../js/myApp.js"></script>
+		<script type="text/javascript">
+			mui.init()
+
+			function doUpload() {
+				var formDataimg = new FormData($("#uploadForm")[0]);
+				var token=app.getState().token;
+				$.ajax({
+					url: 'http://192.168.1.200/file/upload/avatar',
+					headers:{"Authorization":token},
+					type: 'POST',
+					data: formDataimg,
+					async: false,
+					cache: false,
+					contentType: false,
+					processData: false,
+					success: function(returndata) {
+						console.log("--ok:"+JSON.stringify(returndata) );
+					},
+					error: function(returndata) {
+						console.log("--no:"+JSON.stringify(returndata) );
+					}
+				});
+			}
+		</script>
+	</body>
+
+</html>

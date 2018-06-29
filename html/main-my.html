@@ -1,0 +1,315 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+	</head>
+	<style type="text/css">
+		.x-my-bg {
+			width: 100%;
+			height: 300px;
+			/*border: 1px solid red;*/
+			background-image: url(1448115.jpg);
+			background-size: cover;
+			background-position: center;
+			position: relative;
+			margin-bottom: -20px;
+		}
+		
+		.x-my-mask {
+			width: 110px;
+			height: 110px;
+			border-radius: 100%;
+			background-color: rgba(255, 255, 255, 0.7);
+			position: relative;
+		}
+		
+		.x-my-img {
+			width: 100px;
+			height: 100px;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			margin-top: -50px;
+			margin-left: -50px;
+			background-position: center;
+			background-repeat: no-repeat;
+			border-radius: 100%;
+		}
+		
+		.x-my-text {
+			text-align: center;
+			background-color: rgba(225, 225, 225, 0.6);
+			padding: 5px;
+			margin-top: 10px;
+			/*width: 40%;*/
+			overflow: hidden;
+		}
+		
+		.x-wrap {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			margin-top: -50px;
+			margin-left: -50px;
+			width: 112px;
+			/*border: 1px solid red;*/
+		}
+		.mui-table-view{
+			margin-bottom: 15px;  
+		}
+	</style>
+
+	<body>
+		<!--<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">我</h1>
+		</header>-->
+		<div class='x-my-bg' id="bg">
+			<div class="x-wrap">
+				<div class="x-my-mask">
+					<div class="x-my-img" id='img-account'></div>
+				</div>
+				<div class='x-my-text' id='text-nicename'></div>
+			</div>
+		</div>
+
+		<div class="mui-content">
+
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell" id='it1'>
+					<a class="mui-navigate-right">
+						Item 1
+					</a>
+				</li>
+
+				<li class="mui-table-view-cell" id='release'>
+					<a class="mui-navigate-right">
+						发布
+					</a>
+				</li>
+				<li class="mui-table-view-cell" id='set'>
+					<a class="mui-navigate-right">
+						设置
+					</a>
+				</li>
+			</ul>
+			
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell" id='addSite'>
+					<a class="mui-navigate-right">
+						添加站点
+					</a>
+				</li>
+				<li class="mui-table-view-cell" id='addSite'>
+					<a class="mui-navigate-right">
+						修改站点
+					</a>
+				</li>
+			</ul>
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/tools.js"></script>
+		<script type="text/javascript" src="../js/myApp.js"></script>
+		<script src="../js/release.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			
+			document.getElementById("it1").addEventListener('tap', function() {
+				mui.openWindow({
+					url: 'demo1.html'
+				});
+			});
+			
+			document.getElementById("addSite").addEventListener('tap',function(){
+				mui.openWindow({
+					url:'site-addSite.html',
+					id:'site-addSite'
+				});
+			});
+			
+			document.getElementById("release").addEventListener('tap', function() {
+				mui.openWindow({
+					url: 'release.html',
+					id: 'release',
+					extras: {
+						token: app.getState().token //扩展参数
+					},
+//					styles: { // 窗口参数 参考5+规范中的WebviewStyle,也就是说WebviewStyle下的参数都可以在此设置
+//						titleNView: { // 窗口的标题栏控件
+//							titleText: "标题栏", // 标题栏文字,当不设置此属性时，默认加载当前页面的标题，并自动更新页面的标题
+//							titleColor: "#000000", // 字体颜色,颜色值格式为"#RRGGBB",默认值为"#000000"
+//							titleSize: "17px", // 字体大小,默认17px
+//							backgroundColor: "#F7F7F7", // 控件背景颜色,颜色值格式为"#RRGGBB",默认值为"#F7F7F7"
+//							progress: { // 标题栏控件的进度条样式
+//								color: "#00FF00", // 进度条颜色,默认值为"#00FF00"  
+//								height: "2px" // 进度条高度,默认值为"2px"         
+//							},
+//							splitLine: { // 标题栏控件的底部分割线，类似borderBottom
+//								color: "#CCCCCC", // 分割线颜色,默认值为"#CCCCCC"  
+//								height: "1px" // 分割线高度,默认值为"2px"
+//							},
+//							autoBackButton: true,
+//							buttons: [{
+//								text: '发布',
+//								float: 'right',
+//								onclick: rel.release
+//							}]
+//						}
+//					}
+				});
+			});
+			defaultImg();
+			showNiceName();
+
+			//显示用户信息检查
+			function showCurrency(data, el) {
+				if(data == null || data == '' || data == 'undefined') {
+					el.innerHTML = '<span style="color:red;font-size: 14px;">未设置</span>';
+				} else {
+					el.innerText = data;
+				}
+			}
+			//显示用户昵称
+			function showNiceName() {
+				var data = app.getUserinfo().niceName;
+				app.log("显示用户昵称" + data);
+				var niceName = document.getElementById('text-nicename');
+				showCurrency(data, niceName);
+			}
+
+//			var ws = plus.webview.currentWebview()
+//
+//			for(var key in ws) {
+//				//				console.log(key+"::"+ws[key]);
+//			}
+//
+//			console.log(ws.id);
+
+			document.getElementById("set").addEventListener('tap', function() {
+				open();    
+			});
+			
+			document.getElementById("text-nicename").addEventListener('tap', function(e) {
+				open();
+				e.stopPropagation();
+			});
+			document.getElementById("img-account").addEventListener('tap', function(e) {
+				tool.headImgPreview(this.style.backgroundImage);
+				e.stopPropagation();
+			});
+
+			function open() {
+				mui.openWindow({
+					url: 'setting.html',
+					id: 'setting.html',
+					waiting: {
+						autoShow: false, //自动显示等待框，默认为true
+					}
+				});
+			}
+			
+			function defaultImg() {
+//				if(mui.os.plus) {
+//					plus.io.resolveLocalFileSystemURL("_doc/head.jpg", function(entry) {
+//						var s = entry.fullPath + "?version=" + new Date().getTime();
+//						document.getElementById("img-account").setAttribute('style', 'background-image: url(' + s + ');background-size: cover;background-position: center;');
+//					}, function(e) {
+//						document.getElementById("img-account").setAttribute('style', 'background-image: url(' + s + ');background-size: cover;background-position: center;');
+//					})
+//				} else {
+//					document.getElementById("img-account").setAttribute('style', 'background-image: url(' + s + ');background-size: cover;background-position: center;');
+//				}
+				
+				var avatar=app.getUserinfo().avatar;
+				if(avatar==null||avatar==undefined||avatar==''){
+					document.getElementById("img-account").setAttribute('style', 'background-image: url("../images/my.png");background-size: cover;background-position: center;');
+				}else{
+					document.getElementById("img-account").setAttribute('style', 'background-image: url(' + avatar + ');background-size: cover;background-position: center;');
+				}
+			}
+			//自定义事件，用于从设置页面返回之后更新图像
+			window.addEventListener('defaultImg', function() {
+				defaultImg();
+				showNiceName();
+			});
+
+			mui.plusReady(function() {
+				
+				_self = plus.webview.currentWebview();
+				//开启回弹
+				_self.setStyle({
+					bounce: "vertical",
+					bounceBackground: "#efeff4",
+					popGesture: 'none'
+				});
+				document.getElementById("bg").addEventListener('tap', function() {
+					plus.nativeUI.actionSheet({
+						title: "更换背景",
+						cancel: "取消",
+						buttons: [{
+								title: "从相册选择"
+							},
+							{
+								title: "恢复默认"
+							}
+						]
+					}, function(b) {
+						if(b.index == 1) {
+							galleryImg();
+						}
+						if(b.index == 2) {
+							document.getElementById("bg").setAttribute('style', 'background-image: url(1448115.jpg);background-size: cover;background-position: center;');
+						}
+					});
+				});
+			});
+
+			function galleryImg() {
+				plus.gallery.pick(function(a) {
+					plus.io.resolveLocalFileSystemURL(a, function(entry) {
+						plus.io.resolveLocalFileSystemURL("_doc/", function(root) {
+							root.getFile("my-bg.jpg", {}, function(file) {
+								//文件已存在
+								file.remove(function() {
+									console.log("file remove success");
+									entry.copyTo(root, 'my-bg.jpg', function(e) {
+											var e = e.fullPath + "?version=" + new Date().getTime();
+											document.getElementById("bg").setAttribute('style', 'background-image: url(' + e + ');background-size: cover;background-position: center;');
+										},
+										function(e) {
+											console.log('copy image fail:' + e.message);
+										});
+								}, function() {
+									console.log("delete image fail:" + e.message);
+								});
+							}, function() {
+								//文件不存在
+								entry.copyTo(root, 'my-bg.jpg', function(e) {
+										var path = e.fullPath + "?version=" + new Date().getTime();
+										document.getElementById("bg").src = path;
+									},
+									function(e) {
+										console.log('copy image fail:' + e.message);
+									});
+							});
+						}, function(e) {
+							console.log("get _www folder fail");
+						})
+					}, function(e) {
+						console.log("读取拍照文件错误：" + e.message);
+					});
+				}, function(a) {}, {
+					filter: "image"
+				})
+				
+				
+				
+			};
+		</script>
+	</body>
+
+</html>

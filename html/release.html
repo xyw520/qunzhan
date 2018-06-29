@@ -1,0 +1,238 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/drag.css" />
+
+		<style>
+			body {
+				background-color: rgba(100, 100, 100, 0.1);
+			}
+			
+			.mui-content {
+				background-color: #fff;
+			}
+			
+			#textarea {
+				border: none;
+			}
+			
+			.mui-title {
+				text-align: right;
+				color: #24C6DC;
+			}
+			/*栅格*/
+			
+			.mui-row {
+				padding: 6px;
+			}
+			
+			.mui-row img {
+				width: 100%;
+				height: auto;
+			}
+			
+			.mui-col-xs-4 {
+				/*padding: 10px 10px 10px 0px;*/
+				height: 120px;
+				overflow: hidden;
+				width: 31.3333%;
+				margin: 1%;
+				position: relative;
+			}
+			
+			.delBtn {
+				position: absolute;
+				top: 0;
+				right: 0;
+				/*width: 20px;
+				height: 20px;*/
+				padding: 0px 3px;
+				border-radius: 0px 0px 0px 8px;
+				background-color: rgba(0, 0, 0, 0.5);
+			}
+			
+			.icon-del {
+				color: white;
+			}
+			
+			.icon-xiangji {
+				font-size: 40px;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-top: -20px;
+				margin-left: -25px;
+				color: white;
+			}
+			
+			.iconTxt {
+				font-size: 16px;
+				position: absolute;
+				top: 70%;
+				left: 50%;
+				margin-left: -35px;
+				color: #666;
+			}
+			
+			.cameraicon {
+				background-color: rgba(100, 100, 100, 0.1);
+			}
+			
+			.share {
+				margin-top: 10px;
+				padding: 10px;
+				background-color: rgba(100, 100, 100, 0.1);
+			}
+			
+			.share .stext {
+				font-size: 14px;
+			}
+			
+			.share .iconfont {
+				font-size: 22px;
+				color: #777
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<!--<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title" id='relCon'>发布</h1>
+		</header>-->
+		<div class="mui-content">
+			<div class="mui-input-row">
+				<textarea id="textarea" rows="10" placeholder="输入内容"></textarea>
+			</div>
+
+			<div class="mui-row " id='myCamera'>
+				<div class="mui-col-xs-4 cameraicon" onclick="rel.showActionSheet()">
+					<span class="iconfont icon-xiangji"></span>
+					<span class="iconTxt">拍照/录像</span>
+				</div>
+
+				<!--<div class="mui-col-xs-4">
+					<img src="../images/3.jpg" />
+					<span class="delBtn">
+						<i class="iconfont icon-wrong"></i>
+					</span>
+				</div>-->
+			</div>
+
+			<div class="share">
+
+				<div class="mui-row">
+					<div class="mui-col-xs-4">
+						<span class="stext"> 分享：</span><span class="iconfont icon-pengyouquan"></span>
+					</div>
+					<div class="mui-col-xs-4">
+						<span class="stext"> 地点：</span><span class="iconfont icon-didian"></span>
+					</div>
+					<div class="mui-col-xs-4">
+						<span class="stext"> 定时：</span><span class="iconfont icon-shijiandian"></span>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<script src="../js/mui.js"></script>
+		<script type="text/javascript" src="../js/release.js"></script>
+		<script type="text/javascript">
+			mui.init({
+					gestureConfig: {
+						longtap: true, //默认为false	
+						release: true, //默认为false，不监听
+						hold: true,
+					},
+				}
+
+			);
+
+			mui.plusReady(function() {
+				
+
+//				document.getElementById("relCon").addEventListener('tap', function() {
+//					//获取图片路径
+//					var objDivs = document.getElementById('myCamera').getElementsByClassName('mui-col-xs-4');
+//					
+//					for(var i = 1; i < objDivs.length; i++) {
+//						var src = objDivs[i].firstChild.src;
+//						console.log("objDivs.length:"+objDivs.length);
+//						console.log("src:"+src);
+//						
+//						rel.upload(src,function(data){
+//							if(data){
+//								app.updateHeadImg(data,function(data){
+//									if(data){
+//										app.log("修改成功");
+//									}
+//								});
+//							}
+//						});
+//					}
+//					
+//					
+//				});
+
+
+
+				//长按显示删除按钮
+				mui('#myCamera').on('longtap', 'div', function() {
+
+					//获取容器集合
+					var objDivs = document.getElementById('myCamera').getElementsByClassName('mui-col-xs-4');
+
+					//循环给每一个容器添加元素
+					for(var i = 0; i < objDivs.length; i++) {
+						//创建元素
+						var objSpan = document.createElement('span');
+						var objI = document.createElement('i');
+						//给元素设置属性
+						objSpan.setAttribute('class', 'delBtn');
+						objI.setAttribute('class', 'iconfont icon-del');
+						//添加
+						objSpan.appendChild(objI);
+
+						//不给第一个div添加
+						if(i > 0) {
+							objDivs[i].appendChild(objSpan);
+						}
+
+					}
+
+					//删除图片
+					//获取删除按钮对象集合
+					var delBtns = document.getElementsByClassName('delBtn');
+					for(var i = 0; i < delBtns.length; i++) {
+						delBtns[i].addEventListener('tap', function() {
+							this.parentNode.parentNode.removeChild(this.parentNode);
+						});
+					}
+				});
+
+				//朋友圈按钮点击事件
+				var flag = true;
+				document.getElementsByClassName('icon-pengyouquan')[0].addEventListener('tap', function() {
+					if(flag == true) {
+						this.setAttribute('style', 'color: green;');
+						flag = false;
+					} else {
+						this.setAttribute('style', 'color: #777;');
+						flag = true;
+					}
+
+				});
+
+			});
+		</script>
+
+	</body>
+
+</html>

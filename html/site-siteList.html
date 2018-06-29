@@ -1,0 +1,188 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<script src="../js/iconfont.js"></script>
+		<style type="text/css">
+			.icon {
+				/* 通过设置 font-size 来改变图标大小 */
+				width: 2em;
+				height: 2em;
+				/* 图标和文字相邻时，垂直对齐 */
+				vertical-align: -0.15em;
+				/* 通过设置 color 来改变 SVG 的颜色/fill */
+				fill: currentColor;
+				/* path 和 stroke 溢出 viewBox 部分在 IE 下会显示
+            	 normalize.css 中也包含这行 */
+				overflow: hidden;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">我的站点</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-scroll-wrapper" id='con-wrap' style='margin-top: 45px;'>
+				<div class="mui-scroll" id='content'>
+					
+					<div class="mui-card"  >
+						<div class="mui-card-header mui-card-media" id='site1'></div>
+						<div class="mui-card-content" >
+							<div class="mui-card-content-inner">
+								<p>上次修改时间: 18, 2016</p>
+								<p style="color: #333;">1111</p>
+							</div>
+						</div>
+						<div class="mui-card-footer">
+							<a class="mui-card-link">置顶</a>
+							<a class="mui-card-link" >修改</a>
+						</div>
+					</div>
+					
+					<div class="mui-card" v-for="item in items">
+						<div class="mui-card-header mui-card-media"></div>
+						<div class="mui-card-content">
+							<div class="mui-card-content-inner">
+								<p>上次修改时间: 18, 2016</p>
+								<p style="color: #333;">{{item.id}}--{{item.name}}--{{item.domain}}</p>
+							</div>
+						</div>
+						<div class="mui-card-footer">
+							<a class="mui-card-link">置顶</a>
+							<a class="mui-card-link" :data-guid="item.id" @tap="open_detail(item)">修改</a>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div style='position: absolute;right:20px;bottom: 50px;font-size: 24px;z-index: 998;' id='addSite'>
+			<svg class="icon" aria-hidden="true">
+				<use xlink:href="#icon-jiahao"></use>
+			</svg>
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/ui.js"></script>
+		<script src="../js/myApp.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.init();
+			document.getElementById("site1").setAttribute('style', 'background-image: url(../images/site1.png);height:50vw;background-size: cover;background-position: top;');
+			_self = plus.webview.currentWebview();
+			//开启回弹
+			_self.setStyle({
+				popGesture: 'close' //首页有侧滑菜单，因此屏蔽首页的侧滑关闭功能
+			});
+
+			
+			var site = new Vue({
+				el: '#content',
+				data: {
+					items: [] //列表信息流数据  
+				}
+			});
+			loadList();
+			window.addEventListener('reload',function(event){
+				loadList();
+			});
+			function loadList() {
+				//获取站点列表
+				app.siteList(function(p) {
+					if(p) {
+						site.items = p;  
+					}
+				});
+			}
+
+			var webview_detail = null;
+			//			var titleNView = { //详情页原生导航配置
+			//				backgroundColor: '#f7f7f7', //导航栏背景色
+			//				titleText: '', //导航栏标题
+			//				titleColor: '#000000', //文字颜色
+			//				type: 'transparent', //透明渐变样式
+			//				autoBackButton: true, //自动绘制返回箭头
+			//				splitLine: { //底部分割线
+			//					color: '#cccccc'
+			//				}
+			//			}
+			mui.plusReady(function() {
+				//预加载详情页
+				webview_detail = mui.preload({
+					url: 'site-updateSite.html',
+					id: 'site-updateSite',
+					//					styles: {
+					//						"render": "always",
+					//						"popGesture": "hide",
+					//						"bounce": "vertical",
+					//						"bounceBackground": "#efeff4",
+					//						"titleNView": titleNView
+					//					}
+				});
+			});
+
+			/**
+			 * 打开修改详情页面
+			 * 
+			 * @param {Object} item 当前点击的站点对象
+			 */
+			function open_detail(item) {
+				//触发子窗口变更新闻详情
+				mui.fire(webview_detail, 'get_detail', {
+					id: item.id,
+					wap: item.wap,
+					isOn: item.isOn,
+					orderNum: item.orderNum,
+					name: item.name,
+					domain: item.domain,
+					seoTitle: item.seoTitle,
+					seoKeywords: item.seoKeywords,
+					seoDescription: item.seoDescription,
+					template: item.template,
+					ip: item.ip,
+					phoneNumber: item.phoneNumber,
+					email: item.email
+				});
+
+				//更改详情页原生导航条信息
+				//				titleNView.titleText = item.name;
+				//				webview_detail.setStyle({
+				//					"titleNView": titleNView  
+				//				});
+				setTimeout(function() {
+					webview_detail.show("slide-in-right", 300);
+				}, 150);
+			}
+
+						
+
+			//打开添加站点
+			document.getElementById("addSite").addEventListener('tap', function() {
+				mui.openWindow({
+					url: 'site-addSite.html',
+					id: 'site-addSite'
+				});
+			});
+
+			mui('.mui-scroll-wrapper').scroll({
+				scrollY: true, //是否竖向滚动
+				scrollX: true, //是否横向滚动
+				startX: 0, //初始化时滚动至x
+				startY: 0, //初始化时滚动至y
+				indicators: true, //是否显示滚动条
+				//deceleration: 0.00000001, //阻尼系数,系数越小滑动越灵敏
+				bounce: true //是否启用回弹
+			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,235 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<script src="../js/autosize.js"></script>
+		<style type="text/css">
+			input.x-input {
+				border: none;
+				border-bottom: 1px solid #ccc;
+			}
+			
+			.mui-content {
+				background-color: white;
+			}
+			
+			.mui-scroll {
+				background-color: white;
+				padding: 15px;
+			}
+			
+			#btnComplete {
+				float: right;
+				line-height: 45px;
+				margin-right: 15px;
+			}
+			
+			.edit-text {
+				/*min-height: 0.45rem;
+				font-size: 0.16rem;*/
+				color: #2e2e2e;
+				/*line-height: 0.25rem;*/
+				outline: none;
+				-webkit-user-select: text;
+				padding: 5px;
+			}
+			
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">添加站点</h1>
+			<span id='btnComplete'>完成</span>  
+		</header>
+		<div class="mui-content">
+			<div class="mui-scroll-wrapper" id='con-wrap'>
+				<div class="mui-scroll" id='content'>
+
+					<div style="border-bottom: 1px solid #ccc;overflow: hidden;padding: 15px 0px;margin-bottom: 15px;">
+						<div style="float: left;line-height: 30px;">
+							站点开启状态：
+						</div>
+						<div class="mui-switch" style="float: right;" id="isOn">
+							<div class="mui-switch-handle"></div>
+						</div>
+					</div>
+
+					<div style="border-bottom: 1px solid #ccc;overflow: hidden;padding: 15px 0px;margin-bottom: 15px;">
+						<div style="float: left;line-height: 30px;">
+							支持wap站点：
+						</div>
+						<div class="mui-switch" style="float: right;" id="wap">
+							<div class="mui-switch-handle"></div>
+						</div>
+					</div>
+
+					<p>订单号：</p>
+					<input type="text" class="x-input" id='orderNum' value='0' />
+
+					<p>网站名称：</p>
+					<input type="text" class="x-input" id="name" value='xyw0000' />
+
+					<p>域名：</p>
+					<input type="text" class="x-input" id="domain" value='' />
+					<p id='domainInfo'></p>
+					<p>SEO标题：</p>
+					<!--<input type="text" class="x-input" id="seoTitle" value='sssss' />-->
+					<textarea id="seoTitle">2222222</textarea>
+						
+					<p>SEO关键词：</p>
+					<!--<input type="text" class="x-input" id="seoKeywords" value='sssss' />-->
+					<textarea id="seoKeywords">333333</textarea>
+					<p>SEO描述：</p>
+					<!--<input type="text" class="x-input" id="seoDescription" value='sssss' />-->
+					<textarea id="seoDescription">4444</textarea>
+					<p>模板路径：</p>
+					<input type="text" class="x-input" id="template" value='sssss' />
+
+					<p>IP地址：</p>
+					<input type="text" class="x-input" id="ip" value='173.168.4.1' />
+
+					<p>手机号 （11位手机号码）: </p>
+					<input type="text" class="x-input" id="phoneNumber" value='15574893007' />
+					<p id='phoneNumberInfo'></p>
+					<p>邮箱: </p>
+					<input type="text" class="x-input" id="email" value='412976055@qq.cpm' />
+					<p id='emailInfo'></p>
+				</div>
+			</div>
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/ui.js"></script>
+		<script src="../js/myApp.js"></script>
+		<script type="text/javascript">
+			autosize(document.querySelectorAll('textarea'));  
+			mui.init();
+			ui.scollBounce();
+
+			//备份mui.back，mui.back已将窗口关闭逻辑封装的比较完善（预加载及父子窗口），因此最好复用mui.back
+			var old_back = mui.back;
+			mui.back = function() {
+				var btn = ["确定", "取消"];
+				mui.confirm('确认关闭当前窗口？', '添加尚未完成', btn, function(e) {
+					if(e.index == 0) {
+						//执行mui封装好的窗口关闭逻辑；
+						old_back();
+					}
+				});
+			}
+			var siteInfo = {};
+			mui(".mui-scroll").on('toggle', '.mui-switch', function() {
+				if(event.detail.isActive) {
+					mui.toast('已开启');
+					get_isOn_wap()
+				} else {
+					mui.toast('已关闭');
+					get_isOn_wap()
+				}
+			});
+
+			function get_isOn_wap() {
+				var isOn = document.getElementById("isOn").classList.contains("mui-active");
+				var wap = document.getElementById("wap").classList.contains("mui-active");
+
+				if(isOn) {
+					siteInfo.isOn = true;
+					console.log("打开状态" + siteInfo.isOn);
+				} else {
+					siteInfo.isOn = false;
+					console.log("关闭状态");
+				}
+				if(wap) {
+					siteInfo.wap = true;
+					console.log("打开状态");
+				} else {
+					siteInfo.wap = false;
+					console.log("关闭状态");
+				}
+			}
+
+			//			document.getElementById("cancel").addEventListener('tap', function() {
+			//				mui.back();
+			//			});
+
+			document.getElementById("btnComplete").addEventListener('tap', function() {
+				
+				var objInputs = document.querySelectorAll('input');
+				var objTextarea=document.querySelectorAll('textarea');
+				
+				siteInfo.orderNum = objInputs[0].value;
+				siteInfo.name = objInputs[1].value;
+				siteInfo.domain = objInputs[2].value;
+				siteInfo.template = objInputs[3].value;
+				siteInfo.ip = objInputs[4].value;
+				siteInfo.phoneNumber = objInputs[5].value;
+				siteInfo.email = objInputs[6].value;
+				
+				siteInfo.seoTitle = objTextarea[0].value;
+				siteInfo.seoKeywords = objTextarea[1].value;
+				siteInfo.seoDescription = objTextarea[2].value;
+				get_isOn_wap();
+				for(var key in siteInfo) {
+					app.log(key + "==" + siteInfo[key]);
+				}
+				app.addSite(siteInfo, function(data) {
+					if(data) {
+						mui.toast('添加成功');
+						console.log("获取排序号------------------------------------")
+						app.addSiteOrderNum(function(data){
+							
+						});
+						
+						//获得列表界面的webview
+						var list = plus.webview.getWebviewById('site-siteList');
+						//触发列表界面的自定义事件（refresh）,从而进行数据刷新
+						mui.fire(list, 'reload');
+						//返回true，继续页面关闭逻辑
+						old_back();
+					}
+				});
+
+			});
+			
+		
+			//域名 失去焦点事件
+			document.getElementById("domain").addEventListener('blur',function(){
+				app.addsiteUsed(this.value,function(data){
+					if(data){
+						document.getElementById("domainInfo").innerText='提示：'+data;
+					}
+				})
+			});
+			
+			
+			//手机号码 失去焦点事件
+			document.getElementById("phoneNumber").addEventListener('blur',function(){
+				if(app.Reg.IS_MOBILE.test(this.value)){
+					document.getElementById("phoneNumberInfo").innerHTML='';
+				}else{
+					document.getElementById("phoneNumberInfo").innerHTML='<span style="color:red">手机号码格式不对</span>';
+					return false;
+				}
+			});
+			
+			//邮箱 失去焦点事件
+			document.getElementById("email").addEventListener('blur',function(){
+				if(app.Reg.EMAIL.test(this.value)){
+					document.getElementById("emailInfo").innerHTML='';
+				}else{
+					document.getElementById("emailInfo").innerHTML='<span style="color:red">邮箱格式不对</span>';
+					return false;
+				}
+			});
+			
+			
+		</script>
+	</body>
+
+</html>

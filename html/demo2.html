@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">标题</h1>
+		</header>
+		<div class="mui-content">
+			<button id='btn1'>相册</button>
+			<button id='btn2'>上传</button>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			mui.plusReady(function() {
+				document.getElementById("btn1").addEventListener('tap', function() {
+					appendByGallery();
+				});
+
+				// 添加文件
+				var f1 = null;
+
+				// 从相册添加文件 
+				function appendByGallery() {
+					plus.gallery.pick(function(path) {
+						f1 = path;
+						//					appendFile(path); //处理图片的地方
+					});
+				}
+
+				// 上传文件
+				function upload() {
+
+					var wt = plus.nativeUI.showWaiting();
+					var url = 'http://192.168.1.200/file/upload/avatar';
+					var dataType = 'json';
+					//发送数据  
+					var data = {
+						files1: f1 //base64数据        
+					};
+					//					$.post(url, data, success, dataType);
+					$.ajax({
+						type: 'POST',
+						url: url,
+						data: data,
+						headers: {
+							"Authorization": "bearer f39266b5-5139-4d9a-b69c-833249ecfbf4"
+						},
+						success: function(response) {
+							plus.nativeUI.closeWaiting();
+							if(response != null) {
+								console.log(JSON.stringify(response));
+							}
+						},
+						error: function(returndata) {
+							plus.nativeUI.closeWaiting();
+							console.log(JSON.stringify(returndata));
+						}
+					});
+				}
+				//成功响应的回调函数
+				//				var success = function(response) {
+				//					plus.nativeUI.closeWaiting();
+				//					if(response != null) {
+				//						console.log(JSON.stringify(response));
+				//					}
+				//
+				//				}
+			});
+
+			function appendFile(path) {
+
+				var img = new Image();
+				img.src = path; // 传过来的图片路径在这里用。
+				img.onload = function() {
+					var that = this;
+					//生成比例 
+					var w = that.width,
+						h = that.height,
+						scale = w / h;
+					w = 480 || w; //480  你想压缩到多大，改这里
+					h = w / scale;
+
+					//生成canvas
+					var canvas = document.createElement('canvas');
+
+					var ctx = canvas.getContext('2d');
+
+					$(canvas).attr({
+						width: w,
+						height: h
+					});
+
+					ctx.drawImage(that, 0, 0, w, h);
+
+					var base64 = canvas.toDataURL('image/jpeg', 1 || 0.8); //1最清晰，越低越模糊。有一点不清楚这里明明设置的是jpeg。弹出 base64 开头的一段 data：image/png;却是png。哎开心就好，开心就好
+					//              alert(base64);      
+
+					f1 = base64; // 把base64数据丢过去，上传要用。
+
+					var pic = document.getElementById("x");
+					pic.src = base64; //这里丢到img 的 src 里面就能看到效果了
+				}
+
+			}
+
+			document.getElementById("btn2").addEventListener('tap', function() {
+				upload();
+			});
+		</script>
+	</body>
+
+</html>

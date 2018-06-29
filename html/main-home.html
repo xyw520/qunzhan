@@ -1,0 +1,203 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<script src="../js/iconfont.js"></script>
+		<style type="text/css">
+			.icon {
+				/* 通过设置 font-size 来改变图标大小 */
+				width: 2em;
+				height: 2em;
+				/* 图标和文字相邻时，垂直对齐 */
+				vertical-align: -0.15em;
+				/* 通过设置 color 来改变 SVG 的颜色/fill */
+				fill: currentColor;
+				/* path 和 stroke 溢出 viewBox 部分在 IE 下会显示
+            	 normalize.css 中也包含这行 */
+				overflow: hidden;
+				
+			}
+			
+			li {
+				list-style: none;
+			}
+			
+			.x-wrap {
+				height: 200px;
+				width: 100%;
+				background-image: url(../images/home-bg.jpg);
+				background-size: cover;
+				background-position: center;
+			}
+			
+			.x-bg-mask {
+				position: absolute;
+				top: 0;
+				left: 0;
+				background-color: rgba(255, 255, 255, 0.7);
+				width: 100%;
+				height: 200px;
+				z-index: 1;
+			}
+			
+			.mui-col-sm-12 {
+				z-index: 2;
+			}
+			
+			.x-title {
+				padding: 10px 15px;
+				font-size: 14px;
+			}
+			
+			.x-title-icon {
+				float: left;
+				width: 5px;
+				background-color: rgb(237, 184, 6);
+				height: 18px;
+				padding: 10px 0px;
+				margin-right: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--<div class='x-wrap'>
+			<div class='x-left'>
+				欢迎：
+			</div>
+			<div class='x-right'></div>
+		</div>-->
+		<div class="mui-content">
+			
+				<div class="mui-scroll-wrapper"id="pullrefresh">
+					<div class="mui-scroll" id='content'>
+						<div class="mui-row x-wrap">
+							<div class="mui-col-sm-12 mui-col-xs-12" style="font-size: 24px;margin-top: 20px;">
+								<li class="mui-table-view-cell">
+									欢迎：
+								</li>
+							</div>
+							<div class="mui-col-sm-12 mui-col-xs-12">
+								<li class="mui-table-view-cell">
+									当前管理站点：
+								</li>
+							</div>
+							<div class='x-bg-mask'></div>
+						</div>
+						<div class='x-title'>
+							<span class='x-title-icon'></span>常用功能
+						</div>
+						<ul class="mui-table-view mui-grid-view mui-grid-9">
+							<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+								<a href="#">
+									<svg class="icon" aria-hidden="true">
+										<use xlink:href="#icon-liuyan"></use>
+									</svg>
+									<div class="mui-media-body">留言</div>
+								</a>
+							</li>
+							<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+								<a href="#">
+									<svg class="icon" aria-hidden="true">
+										<use xlink:href="#icon-dingdan"></use>
+									</svg>
+									<div class="mui-media-body">订单</div>
+								</a>
+							</li>
+							<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+								<a href="#">
+									<svg class="icon" aria-hidden="true">
+										<use xlink:href="#icon-tongji"></use>
+									</svg>
+									<div class="mui-media-body">统计</div>
+								</a>
+							</li>
+							<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="siteManage">
+								<a>
+									<svg class="icon" aria-hidden="true">
+										<use xlink:href="#icon-zhandianxinxi"></use>
+									</svg>
+									<div class="mui-media-body">站点管理</div>
+								</a>
+							</li>
+							<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+								<a href="#">
+									<svg class="icon" aria-hidden="true">
+										<use xlink:href="#icon-fenlei"></use>
+									</svg>
+									<div class="mui-media-body">分类</div>
+								</a>
+							</li>
+							<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+								<a href="#">
+									<svg class="icon" aria-hidden="true">
+										<use xlink:href="#icon-kepuwenzhang"></use>
+									</svg>
+									<div class="mui-media-body">文章</div>
+								</a>
+							</li>
+							<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+								<a href="#">
+									<svg class="icon" aria-hidden="true">
+										<use xlink:href="#icon-chanpin-copy"></use>
+									</svg>
+									<div class="mui-media-body">产品</div>
+								</a>
+							</li>
+							<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+								<a href="#">
+									<svg class="icon" aria-hidden="true">
+										<use xlink:href="#icon-tongji1"></use>
+									</svg>
+									<div class="mui-media-body">统计</div>
+								</a>
+							</li>
+							<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+								<a href="#">
+									<span class="mui-icon mui-icon-more"></span>
+									<div class="mui-media-body">more</div>
+								</a>
+							</li>
+
+						</ul>
+					</div>
+			</div>
+
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+
+			mui.plusReady(function() {
+				var height = plus.display.resolutionHeight;
+				var minheight = height - 110;
+				var ph = height - 111;
+				document.getElementById("content").setAttribute("style", "min-height:" + minheight + "px;");
+				document.getElementById("pullrefresh").setAttribute("style", "height:" + ph+ "px;");
+
+			});
+
+			mui('.mui-scroll-wrapper').scroll({
+				scrollY: true, //是否竖向滚动
+				scrollX: true, //是否横向滚动
+				startX: 0, //初始化时滚动至x
+				startY: 0, //初始化时滚动至y
+				indicators: false, //是否显示滚动条
+				//				deceleration: 0.00000001, //阻尼系数,系数越小滑动越灵敏
+				bounce: true //是否启用回弹
+			});
+			
+			document.getElementById("siteManage").addEventListener('tap',function(){
+				mui.openWindow({
+					url:'site-siteList.html',
+					id:'site-siteList'
+				});
+			});
+		</script>
+	</body>
+
+</html>

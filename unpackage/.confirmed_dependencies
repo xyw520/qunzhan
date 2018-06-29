@@ -1,0 +1,24 @@
+{
+  "index.html": {
+    "resources": [
+      "html/main-home.html"
+    ],
+    "refer": [
+      "html/main-chat.html",
+      "html/main-home.html",
+      "html/release.html",
+      "html/main-my.html",
+      "html/main-trends.html"
+    ]
+  },
+  "loginPhoneNumber.html": {
+    "refer": [
+      "index.html"
+    ]
+  },
+  "html/main-my.html": {
+    "refer": [
+      "html/setting.html"
+    ]
+  }
+}

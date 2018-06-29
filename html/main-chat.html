@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<div class="mui-content" >
+			<div id="pullrefresh" class="mui-content mui-scroll-wrapper" >
+				<div id="content" class="mui-scroll" >
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell">
+							<a class="mui-navigate-right">
+								Item 1
+							</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a class="mui-navigate-right">
+								Item 2
+							</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a class="mui-navigate-right">
+								Item 3  
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+		</div>
+
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		mui.plusReady(function(){
+			var height = plus.display.resolutionHeight;
+			console.log(height);
+			jQuery("#content").css({
+				"minHeight": (height - 99) + 'px',
+				'border':'1px solid red'
+			});
+			jQuery("#pullrefresh").css({
+				"height": (height-98) + 'px',
+				"border":'1px solid blue'
+			});
+
+		});
+			
+			mui('.mui-scroll-wrapper').scroll({
+				scrollY: true, //是否竖向滚动
+				scrollX: true, //是否横向滚动
+				startX: 0, //初始化时滚动至x
+				startY: 0, //初始化时滚动至y
+				indicators: false, //是否显示滚动条
+				//				deceleration: 0.00000001, //阻尼系数,系数越小滑动越灵敏
+				bounce: true //是否启用回弹
+			});
+		</script>
+	</body>
+
+</html>
