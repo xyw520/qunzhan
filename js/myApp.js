@@ -14,7 +14,7 @@
 
 	app.config = {
 		isDebug: true, //是否调试模式，发布时为false（发布时一定要改为false）
-		serverHost: 'http://103.43.11.90:888', //API服务器域名
+		serverHost: 'http://', //API服务器域名
 		dbName: 'qunzhanDb', //本地存储数据库名称
 		basicAuthorization: 'Basic YXBwLXF1bnpoYW46YXBwNjBmNzg2ODFkMDYzNTkwYTQ2OWYxYjI5N2ZlZmYzYzQ=',
 		SMS: {
