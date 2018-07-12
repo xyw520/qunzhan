@@ -87,7 +87,12 @@
 
 				<li class="mui-table-view-cell" id='release'>
 					<a class="mui-navigate-right">
-						发布
+						发布方式1
+					</a>
+				</li>
+				<li class="mui-table-view-cell" id='release2'>
+					<a class="mui-navigate-right">
+						发布方式2
 					</a>
 				</li>
 				<li class="mui-table-view-cell" id='set'>
@@ -120,7 +125,7 @@
 			
 			document.getElementById("it1").addEventListener('tap', function() {
 				mui.openWindow({
-					url: 'demo1.html'
+					url: 'demo3.html'
 				});
 			});
 			
@@ -128,6 +133,13 @@
 				mui.openWindow({
 					url:'site-addSite.html',
 					id:'site-addSite'
+				});
+			});
+			
+			document.getElementById("release2").addEventListener('tap',function(){
+				mui.openWindow({
+					url:'release2.html',
+					id:'release2'
 				});
 			});
 			

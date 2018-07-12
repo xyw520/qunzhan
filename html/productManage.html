@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">产品管理</h1>
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell" id='Cate'>
+					<a class="mui-navigate-right">
+						管理分类
+					</a>
+				</li>
+				<li class="mui-table-view-cell" id='Page'>
+					<a class="mui-navigate-right">
+						管理产品
+					</a>
+				</li>
+
+			</ul>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+
+			mui.plusReady(function() {
+				_self = plus.webview.currentWebview();
+
+				_self.setStyle({
+					popGesture: 'close' //开启侧滑关闭功能
+				});
+			});
+
+			document.getElementById("Cate").addEventListener('tap', function() {
+				mui.openWindow({
+					url: 'pdtCate-list.html',
+					id: 'pdtCate-list',
+					show: {
+						aniShow: 'slide-in-right'
+					}
+				});
+			});
+
+			document.getElementById("Page").addEventListener('tap', function() {
+				mui.openWindow({
+					url: 'pdtPage-list.html',
+					id: 'pdtPage-list',
+					show: {
+						aniShow: 'slide-in-right'
+					}
+				});
+			});
+
+			
+		</script>
+	</body>
+
+</html>

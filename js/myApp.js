@@ -11,7 +11,6 @@
 	app.Reg.HTTP_URL = /^((https|http)?:\/\/)/; //校验http url
 	app.Reg.IS_MOBILE = /^1[3|4|5|7|8]\d{9}$/; //手机号码
 	app.Reg.EMAIL = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
-	
 
 	app.config = {
 		isDebug: true, //是否调试模式，发布时为false（发布时一定要改为false）
@@ -85,31 +84,138 @@
 		//图像上传
 		'imgUpload': '/file/upload/avatar',
 		//头像修改
-		'updateHeadImg':'/user/update/avatar',
+		'updateHeadImg': '/user/update/avatar',
 		//手机号码修改
 		'phoneNumberRest': '/user/update/phoneNumberRest',
 		//手机号码修改  手机号没有绑定的情况下
-		'phoneNumber':'/user/update/phoneNumber',
+		'phoneNumber': '/user/update/phoneNumber',
 		//		//新的手机号码，发送验证码
 		//		'newPhoneNumberRestSend':'/user/update/phoneNumberRest/send/',
 		//json header
 		//用户添加新站点
-		'addSite':'/cms/site/add',
+		'addSite': '/cms/site/add',
 		//用户修改站点
-		'updateSite':'/cms/site/update',
+		'updateSite': '/cms/site/update',
 		//获取当前用户的站点列表
-		'siteList':'/cms/site/list',
+		'siteList': '/cms/site/list',
 		//检查域名是否被占用
-		'siteUsed':'/cms/site/domain/used',
+		'siteUsed': '/cms/site/domain/used',
 		//获取创建新站点系统分配的排序号
-		'addSiteOrderNum':'/cms/site/orderNum',
-		
-		
-		
-		'json': {
-			'Content-Type': 'application/json'
-		}
+		'addSiteOrderNum': '/cms/site/orderNum',
+		//
+		'optionsAdd': '/cms/options/add',
+		//切换站点
+		'switchSite': '/cms/site/switch',
+		//获取当前处理站点
+		'getSite': '/cms/site/switch/get/site',
+		//单页面分类，获取排序号
+		'spcOrderNum': '/cms/singlePageCategory/orderNum',
+		//单页面分类，添加分类
+		'spcAdd': '/cms/singlePageCategory/add',
+		//单页面分类，修改分类
+		'spcUpdate': '/cms/singlePageCategory/update',
+		//单页面分类，删除分类
+		'spcDelete': '/cms/singlePageCategory/delete',
+		//单页面分类，列表
+		'spcList': '/cms/singlePageCategory/list',
+		//检测目录该站点是否被占用
+		'spcDirUsed': '/cms/singlePageCategory/dir/used',
+		//单页面，添加一条信息
+		'sppAdd': '/cms/singlePage/add',
+		//单页面，为新添加的信息获取新的排序号
+		'sppOrderNum': '/cms/singlePage/orderNum',
+		//添加时，检测路径是否被占用 (以旧路径地址 是否填写 区分是 新添加 路径还是 修改路径)
+		'sppAddPathUsed': '/cms/singlePage/path/used',
+		//修改时，检测路径是否被占用 (以旧路径地址 是否填写 区分是 新添加 路径还是 修改路径)
+		'sppUpdatePathUsed': '/cms/singlePage/path/used',
+		//单页面，普通列表 不带搜索功能
+		'sppList': '/cms/singlePage/list',
+		//按照分类普通分页列表 不带搜索功能
+		'sppListByCate': '/cms/singlePage/list/category',
+		//修改单页面
+		'sppUpdate': '/cms/singlePage/update',
+		//删除单页面
+		'sppDel': '/cms/singlePage/delete',
 
+		//文章分类
+		//普通分页列表 不带搜索功能
+		'atlCateList': '/cms/articleCategory/list',
+		//添加一条信息
+		'atlCateAdd': '/cms/articleCategory/add',
+		//检测目录该站点是否被占用
+		'atlCateDirUsed': '/cms/articleCategory/dir/used',
+		//为新添加信息获取新的排序号
+		'atlCateOrderNum': '/cms/articleCategory/orderNum',
+		//修改一条信息
+		'atlCateUpdate': '/cms/articleCategory/update',
+		//删除一条信息，不可逆
+		'atlCateDel': '/cms/articleCategory/delete',
+		//通过id获取单条信息
+		'atlCateById': '/cms/articleCategory/get',
+
+		//文章管理
+		//添加一条信息
+		'atlAdd': '/cms/article/add',
+		//为新添加信息获取新的排序号
+		'atlOrderNum': '/cms/article/orderNum',
+		//检测路径是否被占用 (以旧路径地址 是否填写 区分是 新添加 路径还是 修改路径)
+		'atlPathUsed': '/cms/article/path/used',
+		//修改
+		'atlUpdate': '/cms/article/update',
+		//删除
+		'atlDel': '/cms/article/delete',
+		//获取列表
+		'atlList': '/cms/article/list',
+		//通过id获取单条信息
+		'atlById':'/cms/article/get',
+		
+		
+		//产品分类
+		//添加一条信息
+		'pdtCateAdd': '/cms/productCategory/add',
+		//删除
+		'pdtCateDel': '/cms/productCategory/delete',
+		//修改
+		'pdtCateUpdate': '/cms/productCategory/update',
+		//列表
+		'pdtCateList': '/cms/productCategory/list',
+		//排序号
+		'pdtCateOrderNum': '/cms/productCategory/orderNum',
+		//检测目录该站点是否被占用
+		'pdtCateDirUsed': '/cms/productCategory/dir/used',
+		//通过id获取单条信息
+		'pdtCateById':'/cms/productCategory/get',
+
+
+		//产品
+		//添加
+		'pdtAdd': '/cms/product/add',
+		//修改
+		'pdtUpdate': '/cms/product/update',
+		//删除
+		'pdtDel': '/cms/product/delete',
+		//获取排序号
+		'pdtOrderNum': '/cms/product/orderNum',
+		//检测路径是否被占
+		'pdtPathUsed': '/cms/product/path/used',
+		//列表
+		'pdtList': '/cms/product/list',
+		//通过id获取单条信息
+		'pdtById':'/cms/product/get',
+
+		//留言
+		//添加
+		'msgAdd': '/cms/message/add',
+		//删除
+		'msgDel': '/cms/message/delete',
+		//普通分页列表
+		'msgList': '/cms/message/list',
+		//获取排序号
+		'msgOrderNum': '/cms/message/orderNum',
+		//修改
+		'msgUpdate': '/cms/message/update',
+		//通过id获取单条信息
+		'msgById':'/cms/message/get',
 	};
 
 	//若api接口不是以http或者https开头，则拼接配置中的apiDomain为开头
@@ -138,8 +244,8 @@
 		var token = app.getState().token;
 		token = token || '';
 		var defaultHeaders = {
-			'Authorization': token
-			//			'content-type':'application/x-www-form-urlencoded'
+			'Authorization': token,
+			'content-type': 'application/x-www-form-urlencoded'
 		};
 		var defaultSetting = {
 			//是否展示等待框  （自定义） 默认不显示
@@ -193,7 +299,7 @@
 							//							if(!data.valid) {
 							//								mui.isFunction(setting.success) && setting.success(data);
 							//							}
-							mui.toast("default:" + data.message);  
+							mui.toast("default:" + data.message);
 						app.log("default:" + data.message);
 						app.log("default:" + JSON.stringify(data));
 						mui.isFunction(setting.error) && setting.error(data);
@@ -298,37 +404,1324 @@
 		});
 
 	};
+
+	//
+	app.optionsAdd = function(callback) {
+		app.ajax({
+			url: app.api['optionsAdd'],
+			data: {
+				"key": "1",
+				"name": "test1",
+				"type": 0,
+				"value": "11111"
+			},
+			headers: {
+				'Authorization': app.getState().token,
+				'Content-Type': 'application/json',
+			},
+			showWaiting: true,
+			type: 'post', //HTTP请求类型
+			dataType: 'json',
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+
+	//根据id 切换站点
+	app.switchSite = function(id, callback) {
+		app.ajax({
+			url: app.api['switchSite'],
+			data: {
+				siteId: id
+			},
+			showWaiting: true,
+			type: 'get', //HTTP请求类型
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+
+	/*
+	 * 获取当前处理站点
+	 */
+	app.getSite = function(callback) {
+		app.ajax({
+			url: app.api['getSite'],
+			showWaiting: true,
+			type: 'get', //HTTP请求类型
+			success: function(data) {
+				var siteInfo = app.getSiteInfo();
+				siteInfo = data.data;
+				app.setSiteInfo(siteInfo);
+				return callback(data.data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+
+	/**
+	 * 留言管理，添加
+	 */
+	app.msgAdd = function(item, callback) {
+		console.log("进入添加留言-------------------");
+		app.ajax({
+			url: app.api['msgAdd'],
+			data: {
+				"content": item.content,
+				"mobile": self.mobile,
+				"name": item.name,
+				"siteId": item.siteId,
+				"title": item.title,
+			},
+			headers: {
+				'Authorization': app.getState().token,
+				'Content-Type': 'application/json',
+			},
+			showWaiting: true,
+			type: 'post',
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data.data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+	/**
+	 * 留言管理，获取排序号
+	 */
+	app.msgOrderNum = function(callback) {
+		app.ajax({
+			url: app.api['msgOrderNum'],
+			showWaiting: true,
+			type: 'get',
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data.data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+	/**
+	 * 留言管理，删除
+	 */
+	app.msgDel = function(item, callback) {
+		app.ajax({
+			url: app.api['msgDel'],
+			showWaiting: true,
+			type: 'post',
+			data: {
+				id: item.id
+			},
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data.data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+	/**
+	 * 留言管理，修改
+	 */
+	app.msgUpdate = function(item, callback) {
+		console.log("item.id:" + item.id);
+		app.ajax({
+			url: app.api['msgUpdate'],
+			data: {
+				"id": item.id,
+				"content": item.content,
+				"mobile": self.mobile,
+				"name": item.name,
+				"siteId": item.siteId,
+				"title": item.title,
+				"replyContent": item.replyContent,
+				"replyName": item.replyName,
+			},
+			headers: {
+				'Authorization': app.getState().token,
+				'Content-Type': 'application/json',
+			},
+			showWaiting: true,
+			type: 'post',
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data.data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
 	
+	/**
+	 * 留言，通过Id获取单条信息
+	 */
+	app.msgById=function(id,callback){
+		app.ajax({
+			url: app.api['msgById'],
+			showWaiting: true,
+			type: 'get',
+			data:{
+				id:id
+			},
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data.data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+	
+	/**
+	 * 通过Id获取单条信息
+	 */
+	app.getInfoById=function(id,url,callback){
+		app.ajax({
+			url: url,
+			showWaiting: true,
+			type: 'get',
+			data:{
+				id:id
+			},
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data.data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+	
+	/**
+	 * 留言管理，列表
+	 */
+	app.msgList = function(callback) {
+		app.ajax({
+			url: app.api['msgList'],
+			showWaiting: true,
+			type: 'get',
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data.data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+
+	/**
+	 * 产品管理，添加
+	 */
+	app.pdtAdd = function(item, callback) {
+		app.ajax({
+			url: app.api['pdtAdd'],
+			data: {
+				"brand": item.brand,
+				"categoryId": self.cateId,
+				"productNumber": item.productNumber,
+				"price": item.price,
+				"nums": item.nums,
+				"postage": item.postage,
+				"level": item.level,
+				"salesNums": item.salesNums,
+				"brand": item.brand,
+				"seoDescription": item.seoDescription,
+				"seoKeywords": item.seoKeywords,
+				"seoTitle": item.seoTitle,
+				"keywords": item.keywords,
+				"orderNum": item.orderNum,
+				"path": item.path,
+				"clickNum": item.clickNum,
+				"title": item.title,
+				"titleShort": item.titleShort,
+				"titleImage": item.titleImage,
+				"images": item.images,
+				"content": item.content,
+				"template": item.template,
+				"siteId": item.siteId
+			},
+			headers: {
+				'Authorization': app.getState().token,
+				'Content-Type': 'application/json',
+			},
+			showWaiting: true,
+			type: 'post',
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data.data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+
+	/**
+	 * 产品管理，修改
+	 */
+	app.pdtUpdate = function(item, callback) {
+		app.ajax({
+			url: app.api['pdtUpdate'],
+			data: {
+				"id": item.id,
+				"brand": item.brand,
+				"categoryId": item.categoryId,
+				"productNumber": item.productNumber,
+				"price": item.price,
+				"nums": item.nums,
+				"postage": item.postage,
+				"level": item.level,
+				"salesNums": item.salesNums,
+				"brand": item.brand,
+				"seoDescription": item.seoDescription,
+				"seoKeywords": item.seoKeywords,
+				"seoTitle": item.seoTitle,
+				"keywords": item.keywords,
+				"orderNum": item.orderNum,
+				"path": item.path,
+				"clickNum": item.clickNum,
+				"title": item.title,
+				"titleShort": item.titleShort,
+				"titleImage": item.titleImage,
+				"images": item.images,
+				"content": item.content,
+				"template": item.template,
+				"siteId": item.siteId
+			},
+			headers: {
+				'Authorization': app.getState().token,
+				'Content-Type': 'application/json',
+			},
+			showWaiting: true,
+			type: 'post',
+			success: function(data) {
+				app.log("产品管理，修改data:" + JSON.stringify(data));
+				return callback(data.data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("产品管理，修改xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+	/**
+	 * 产品管理，删除
+	 */
+	app.pdtDel = function(item, callback) {
+		console.log("item.id:" + item.id);
+		app.ajax({
+			url: app.api['pdtDel'],
+			showWaiting: true,
+			type: 'post',
+			data: {
+				id: item.id
+			},
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data.data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+	/**
+	 * 产品管理，列表
+	 */
+	app.pdtList = function(page, rows, callback) {
+		app.ajax({
+			url: app.api['pdtList'],
+			showWaiting: true,
+			type: 'get',
+			data: {
+				page: page,
+				rows: rows
+			},
+			success: function(data) {
+				app.log("产品管理，列表data:" + JSON.stringify(data));
+				return callback(data.data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+	/**
+	 * 产品管理，获取排序号
+	 */
+	app.pdtOrderNum = function(callback) {
+		app.ajax({
+			url: app.api['pdtOrderNum'],
+			showWaiting: true,
+			type: 'get',
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data.data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+	/**
+	 * 产品管理，检测路径是否被占
+	 */
+	app.pdtPathUsed = function(path, pathOld, callback) {
+		app.ajax({
+			url: app.api['pdtPathUsed'],
+			showWaiting: true,
+			type: 'post',
+			data: {
+				path: path,
+				pathOld: pathOld
+			},
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data.valid);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+				return callback(data.valid);
+			}
+		});
+	}
+	/**
+	 *产品分类，添加一条信息 
+	 */
+	app.pdtCateAdd = function(item, callback) {
+		app.ajax({
+			url: app.api['pdtCateAdd'],
+			data: {
+				"classImg": item.classImg,
+				"dir": item.dir,
+				"isMenu": item.isMenu,
+				"keywords": item.keywords,
+				"microImgHeight": item.microImgHeight,
+				"microImgWidth": item.microImgWidth,
+				"name": item.name,
+				"orderNum": item.orderNum,
+				"seoDescription": item.seoDescription,
+				"seoKeywords": item.seoKeywords,
+				"seoTitle": item.seoTitle,
+				"siteId": item.siteId,
+				"template": item.template,
+			},
+			headers: {
+				'Authorization': app.getState().token,
+				'Content-Type': 'application/json',
+			},
+			showWaiting: true,
+			type: 'post',
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data.data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+
+	/**
+	 *产品分类，修改
+	 */
+	app.pdtCateUpdate = function(item, callback) {
+		app.ajax({
+			url: app.api['pdtCateUpdate'],
+			data: {
+				"id": item.id,
+				"classImg": item.classImg,
+				"dir": item.dir,
+				"isMenu": item.isMenu,
+				"keywords": item.keywords,
+				"microImgHeight": item.microImgHeight,
+				"microImgWidth": item.microImgWidth,
+				"name": item.name,
+				"orderNum": item.orderNum,
+				"seoDescription": item.seoDescription,
+				"seoKeywords": item.seoKeywords,
+				"seoTitle": item.seoTitle,
+				"siteId": item.siteId,
+				"template": item.template,
+			},
+			headers: {
+				'Authorization': app.getState().token,
+				'Content-Type': 'application/json',
+			},
+			showWaiting: true,
+			type: 'post',
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data.data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+	/**
+	 *产品分类，删除
+	 */
+	app.pdtCateDel = function(item, callback) {
+		console.log("item.id:" + item.id)
+		app.ajax({
+			url: app.api['pdtCateDel'],
+			showWaiting: true,
+			type: 'post',
+			data: {
+				id: item.id
+			},
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data.data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+	/**
+	 *产品分类，获取排序号
+	 */
+	app.pdtCateOrderNum = function(callback) {
+		app.ajax({
+			url: app.api['pdtCateOrderNum'],
+			showWaiting: true,
+			type: 'get',
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data.data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+
+	/**
+	 *产品分类，获取列表
+	 */
+	app.pdtCateList = function(page, rows, callback) {
+		app.ajax({
+			url: app.api['pdtCateList'],
+			showWaiting: true,
+			type: 'get',
+			data: {
+				page: page,
+				rows: rows
+			},
+			success: function(data) {
+				app.log("产品分类，获取列表data:" + JSON.stringify(data));
+				return callback(data.data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+
+	/**
+	 *产品分类，检测目录是否被占用
+	 */
+	app.pdtCateDirUsed = function(dir, dirOld, callback) {
+		app.ajax({
+			url: app.api['pdtCateDirUsed'],
+			showWaiting: true,
+			type: 'post',
+			data: {
+				dir: dir,
+				dirOld: dirOld
+			},
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data.valid);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+				return callback(xhr.valid);
+			}
+		});
+	}
+
+	/**
+	 * 文章分类管理，添加
+	 */
+	app.atlCateAdd = function(item, callback) {
+		app.ajax({
+			url: app.api['atlCateAdd'],
+			data: {
+				"categoryId": item.categoryId,
+				"classImg": item.classImg,
+				"dir": item.dir,
+				"isMenu": item.isMenu,
+				"keywords": item.keywords,
+				"microImgHeight": item.microImgHeight,
+				"microImgWidth": item.microImgWidth,
+				"name": item.name,
+				"orderNum": item.orderNum,
+				"seoDescription": item.seoDescription,
+				"seoKeywords": item.seoKeywords,
+				"seoTitle": item.seoTitle,
+				"siteId": item.siteId,
+				"template": item.template,
+			},
+			headers: {
+				'Authorization': app.getState().token,
+				'Content-Type': 'application/json',
+			},
+			showWaiting: true,
+			type: 'post',
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data.data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+
+	/**
+	 * 文章分类管理，添加时获取系统分配的排序号
+	 */
+	app.atlCateOrderNum = function(callback) {
+		app.ajax({
+			url: app.api['atlCateOrderNum'],
+			showWaiting: true,
+			type: 'get',
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data.data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+
+	/**
+	 * 文章分类管理，检测目录该站点是否被占用
+	 */
+	app.atlCateDirUsed = function(dir, dirOld, callback) {
+		app.ajax({
+			url: app.api['atlCateDirUsed'],
+			data: {
+				dir: dir,
+				dirOld: dirOld
+			},
+			showWaiting: true,
+			type: 'get',
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data.valid);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+				return callback(xhr.valid);
+			}
+		});
+	}
+
+	/**
+	 * 文章分类管理，获取文章分类列表
+	 */
+	app.atlCateList = function(callback) {
+		app.ajax({
+			url: app.api['atlCateList'],
+			showWaiting: true,
+			type: 'get',
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data.data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+
+	/**
+	 * 文章分类管理，删除一条信息，不可逆
+	 */
+	app.atlCateDel = function(item, callback) {
+		app.ajax({
+			url: app.api['atlCateDel'],
+			showWaiting: true,
+			data: {
+				id: item.id
+			},
+			type: 'get',
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data.data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+	/**
+	 * 文章分类，通过id获取单条信息
+	 */
+	app.atlCateById = function(id, callback) {
+		app.ajax({
+			url: app.api['atlCateById'],
+			showWaiting: true,
+			data: {
+				id: id
+			},
+			type: 'get',
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data.data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+	/**
+	 * 文章分类管理，修改信息
+	 */
+	app.atlCateUpdate = function(item, callback) {
+		app.ajax({
+			url: app.api['atlCateUpdate'],
+			data: {
+				'id': item.id,
+				"categoryId": item.categoryId,
+				"classImg": item.classImg,
+				"dir": item.dir,
+				"isMenu": item.isMenu,
+				"keywords": item.keywords,
+				"microImgHeight": item.microImgHeight,
+				"microImgWidth": item.microImgWidth,
+				"name": item.name,
+				"orderNum": item.orderNum,
+				"seoDescription": item.seoDescription,
+				"seoKeywords": item.seoKeywords,
+				"seoTitle": item.seoTitle,
+				"siteId": item.siteId,
+				"template": item.template,
+			},
+			headers: {
+				'Authorization': app.getState().token,
+				'Content-Type': 'application/json',
+			},
+			showWaiting: true,
+			type: 'post',
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data.data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+
+	/*
+	 * 文章管理，添加信息
+	 */
+	app.atlAdd = function(item, callback) {
+		app.ajax({
+			url: app.api['atlAdd'],
+			data: {
+				"author": item.author,
+				"categoryId": item.categoryId,
+				"clickNum": item.clickNum,
+				"color": item.color,
+				"content": item.content,
+				"editor": item.editor,
+				"id": item.id,
+				"images": item.images,
+				"infoSource": item.infoSource,
+				"infoSourceUrl": item.infoSourceUrl,
+				"isBold": item.isBold,
+				"isElite": item.isElite,
+				"isRecommend": item.isRecommend,
+				"isRecycle": item.isRecycle,
+				"keywords": item.keywords,
+				"orderNum": item.orderNum,
+				"path": item.path,
+				"seoDescription": item.seoDescription,
+				"seoKeywords": item.seoKeywords,
+				"seoTitle": item.seoTitle,
+				"siteId": item.siteId,
+				"title": item.title,
+				"titleImage": item.titleImage,
+				"titleShort": item.titleShort
+			},
+			headers: {
+				'Authorization': app.getState().token,
+				'Content-Type': 'application/json',
+			},
+			showWaiting: true,
+			type: 'post',
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data.data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+
+	/**
+	 * 文章管理，为新添加信息获取新的排序号
+	 */
+	app.atlOrderNum = function(callback) {
+		app.ajax({
+			url: app.api['atlOrderNum'],
+			showWaiting: true,
+			type: 'get',
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data.data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+
+	/**
+	 * 文章管理,检测路径是否被占用 (以旧路径地址 是否填写 区分是 新添加 路径还是 修改路径)
+	 */
+	app.atlPathUsed = function(path, pathOld, callback) {
+		app.log("path:" + path + "--pathOld:" + pathOld);
+		app.ajax({
+			url: app.api['atlPathUsed'],
+			data: {
+				path: path,
+				pathOld: pathOld
+			},
+			showWaiting: true,
+			type: 'post',
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data.valid);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + JSON.stringify(xhr) + " -type:" + type + " -errorThrown:" + errorThrown);
+				return callback(xhr.valid);
+			}
+		});
+	}
+
+	/**
+	 * 文章管理，获取普通列表
+	 */
+	app.atlList = function(page, rows, callback) {
+		app.ajax({
+			url: app.api['atlList'],
+			data: {
+				page: page,
+				rows: rows
+			},
+			showWaiting: true,
+			type: 'get',
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data.data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+
+	/**
+	 * 文章管理，修改
+	 */
+	app.atlUpdate = function(item, callback) {
+		app.ajax({
+			url: app.api['atlUpdate'],
+			data: {
+				"author": item.author,
+				"categoryId": item.categoryId,
+				"clickNum": item.clickNum,
+				"color": item.color,
+				"content": item.content,
+				"editor": item.editor,
+				"id": item.id,
+				"images": item.images,
+				"infoSource": item.infoSource,
+				"infoSourceUrl": item.infoSourceUrl,
+				"isBold": item.isBold,
+				"isElite": item.isElite,
+				"isRecommend": item.isRecommend,
+				"isRecycle": item.isRecycle,
+				"keywords": item.keywords,
+				"orderNum": item.orderNum,
+				"path": item.path,
+				"seoDescription": item.seoDescription,
+				"seoKeywords": item.seoKeywords,
+				"seoTitle": item.seoTitle,
+				"siteId": item.siteId,
+				"title": item.title,
+				"titleImage": item.titleImage,
+				"titleShort": item.titleShort
+			},
+			headers: {
+				'Authorization': app.getState().token,
+				'Content-Type': 'application/json',
+			},
+			showWaiting: true,
+			type: 'post',
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data.data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+
+	/**
+	 * 文章管理，删除一条信息
+	 */
+	app.atlDel = function(item, callback) {
+		app.ajax({
+			url: app.api['atlDel'],
+			data: {
+				id: item.id
+			},
+			showWaiting: true,
+			type: 'post',
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data.data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+
+	/*
+	 * 单页面分类，获取排序号
+	 */
+	app.spcOrderNum = function(siteId, callback) {
+		app.ajax({
+			url: app.api['spcOrderNum'],
+			data: {
+				siteId: siteId
+			},
+			showWaiting: true,
+			type: 'get',
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data.data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+
+	/*
+	 * 单页面分类，添加分类
+	 */
+	app.spcAdd = function(spcInfo, callback) {
+		app.ajax({
+			url: app.api['spcAdd'],
+			data: {
+				dir: spcInfo.dir,
+				name: spcInfo.name,
+				note: spcInfo.note,
+				orderNum: spcInfo.orderNum,
+				siteId: spcInfo.siteId
+			},
+			headers: {
+				'Authorization': app.getState().token,
+				'Content-Type': 'application/json',
+			},
+			showWaiting: true,
+			type: 'post',
+			success: function(data) {
+				app.log("data:" + data);
+				return callback(data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+
+	/*
+	 * 单页面分类，修改分类
+	 */
+	app.spcUpdate = function(spcInfo, callback) {
+		app.ajax({
+			url: app.api['spcUpdate'],
+			data: {
+				dir: spcInfo.dir,
+				name: spcInfo.name,
+				note: spcInfo.note,
+				orderNum: spcInfo.orderNum,
+				siteId: spcInfo.siteId,
+				id: spcInfo.id
+			},
+			headers: {
+				'Authorization': app.getState().token,
+				'Content-Type': 'application/json',
+			},
+			showWaiting: true,
+			type: 'post',
+			success: function(data) {
+				app.log("data:" + data);
+				return callback(data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+
+	/**
+	 * 单页面分类，删除分类
+	 */
+	app.spcDelete = function(item, callback) {
+		app.ajax({
+			url: app.api['spcDelete'],
+			data: {
+				id: item.id
+			},
+			showWaiting: true,
+			type: 'post',
+			success: function(data) {
+				app.log("data:" + data);
+				return callback(data.data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+
+	/**
+	 * 添加分类时，检测目录是否被占用
+	 */
+	app.spcDirUsed = function(dir, callback) {
+		app.ajax({
+			url: app.api['spcDirUsed'],
+			data: {
+				dir: dir
+			},
+			showWaiting: true,
+			type: 'post',
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data.valid);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + JSON.stringify(xhr) + " -type:" + type + " -errorThrown:" + errorThrown);
+				return callback(xhr.valid);
+			}
+		});
+	}
+
+	/**
+	 * 修改分类时，检测目录是否被占用
+	 */
+	app.spcUpDirUsed = function(dir, dirOld, callback) {
+		app.ajax({
+			url: app.api['spcDirUsed'],
+			data: {
+				dir: dir,
+				dirOld: dirOld,
+			},
+			showWaiting: true,
+			type: 'post',
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data.valid);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + JSON.stringify(xhr) + " -type:" + type + " -errorThrown:" + errorThrown);
+				return callback(xhr.valid);
+			}
+		});
+	}
+
+	/**
+	 *单页面分类，列表 
+	 */
+	app.spcList = function(callback) {
+		app.ajax({
+			url: app.api['spcList'],
+			data: {
+				page: '1',
+				rows: '30'
+			},
+			showWaiting: true,
+			type: 'post',
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data.data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+
+	/**
+	 *单页面，列表 
+	 */
+	app.sppList = function(callback) {
+		app.ajax({
+			url: app.api['sppList'],
+			data: {
+				page: 1,
+				rows: 30
+			},
+			showWaiting: true,
+			type: 'get',
+			success: function(data) {
+				app.log("单页面列表data:" + JSON.stringify(data));
+				return callback(data.data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+
+	/**
+	 * 单页面，按照分类普通分页列表 不带搜索功能
+	 */
+	app.sppListByCate = function(cateId, callback) {
+		app.ajax({
+			url: app.api['sppList'],
+			data: {
+				categoryId: cateId,
+				page: 1,
+				rows: 30
+			},
+			showWaiting: true,
+			type: 'get',
+			success: function(data) {
+				app.log("单页面列表byCate,data:" + JSON.stringify(data));
+				return callback(data.data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+	/**
+	 * 单页面，添加一条信息
+	 */
+	app.sppAdd = function(sppInfo, callback) {
+		app.ajax({
+			url: app.api['sppAdd'],
+			data: {
+				categoryId: sppInfo.categoryId,
+				color: sppInfo.color,
+				content: sppInfo.content,
+				isBold: sppInfo.isBold,
+				orderNum: sppInfo.orderNum,
+				path: sppInfo.path,
+				seoDescription: sppInfo.seoDescription,
+				seoKeywords: sppInfo.seoKeywords,
+				seoTitle: sppInfo.seoTitle,
+				siteId: sppInfo.siteId,
+				template: sppInfo.template,
+				title: sppInfo.title,
+				titleImage: sppInfo.titleImage
+			},
+			headers: {
+				'Authorization': app.getState().token,
+				'Content-Type': 'application/json',
+			},
+			showWaiting: true,
+			type: 'post',
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data.data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+
+	/**
+	 * 单页面，修改一条信息
+	 */
+	app.sppUpdate = function(sppInfo, callback) {
+		app.ajax({
+			url: app.api['sppUpdate'],
+			data: {
+				id: sppInfo.id,
+				categoryId: sppInfo.categoryId,
+				color: sppInfo.color,
+				content: sppInfo.content,
+				isBold: sppInfo.isBold,
+				orderNum: sppInfo.orderNum,
+				path: sppInfo.path,
+				seoDescription: sppInfo.seoDescription,
+				seoKeywords: sppInfo.seoKeywords,
+				seoTitle: sppInfo.seoTitle,
+				siteId: sppInfo.siteId,
+				template: sppInfo.template,
+				title: sppInfo.title,
+				titleImage: sppInfo.titleImage
+			},
+			headers: {
+				'Authorization': app.getState().token,
+				'Content-Type': 'application/json',
+			},
+			showWaiting: true,
+			type: 'post',
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data.data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+
+	/**
+	 * 删除单页面
+	 */
+	app.sppDel = function(sppInfo, callback) {
+		app.ajax({
+			url: app.api['sppDel'],
+			data: {
+				id: sppInfo.id
+			},
+			showWaiting: true,
+			type: 'post',
+			success: function(data) {
+				app.log("data:" + data);
+				return callback(data.data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+
+	/**
+	 * 单页面，添加一条信息获取新的排序号
+	 */
+	app.sppOrderNum = function(callback) {
+		app.ajax({
+			url: app.api['sppOrderNum'],
+			showWaiting: true,
+			type: 'get',
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data.data);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
+			}
+		});
+	}
+
+	/**
+	 * 添加时，检测路径是否被占用 (以旧路径地址 是否填写 区分是 新添加 路径还是 修改路径)
+	 */
+	app.sppAddPathUsed = function(path, callback) {
+		app.ajax({
+			url: app.api['sppAddPathUsed'],
+			data: {
+				path: path,
+			},
+			showWaiting: true,
+			type: 'post',
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data.valid);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + JSON.stringify(xhr) + " -type:" + type + " -errorThrown:" + errorThrown);
+				return callback(xhr.valid);
+			}
+		});
+	}
+
+	/**
+	 * 修改时，检测路径是否被占用 (以旧路径地址 是否填写 区分是 新添加 路径还是 修改路径)
+	 */
+	app.sppUpdatePathUsed = function(path, pathOld, callback) {
+		console.log("path:" + path + "---old:" + pathOld)
+		app.ajax({
+			url: app.api['sppUpdatePathUsed'],
+			data: {
+				path: path,
+				pathOld: pathOld
+			},
+			showWaiting: true,
+			type: 'post',
+			success: function(data) {
+				app.log("data:" + JSON.stringify(data));
+				return callback(data.valid);
+			},
+			error: function(xhr, type, errorThrown) {
+				app.log("xhr:" + JSON.stringify(xhr) + " -type:" + type + " -errorThrown:" + errorThrown);
+				return callback(xhr.valid);
+			}
+		});
+	}
+
 	/*
 	 * 添加站点
 	 */
-	app.addSite=function(siteInfo,callback){
-		
+	app.addSite = function(siteInfo, callback) {
+
 		app.log(siteInfo.name);
-		
+
 		app.ajax({
 			url: app.api['addSite'],
-			data:{
-				orderNum:siteInfo.orderNum,
-				name:siteInfo.name,
-				domain:siteInfo.domain,
-				seoTitle:siteInfo.seoTitle,
-				seoKeywords:siteInfo.seoKeywords,
-				seoDescription:siteInfo.seoDescription,
-				template:siteInfo.template,
-				wap:siteInfo.wap,
-				ip:siteInfo.ip,
-				isOn:siteInfo.isOn,
-				phoneNumber:siteInfo.phoneNumber,
-				email:siteInfo.email,
-				wap:siteInfo.wap,
-				isOn:siteInfo.isOn
+			data: {
+				orderNum: siteInfo.orderNum,
+				name: siteInfo.name,
+				domain: siteInfo.domain,
+				seoTitle: siteInfo.seoTitle,
+				seoKeywords: siteInfo.seoKeywords,
+				seoDescription: siteInfo.seoDescription,
+				template: siteInfo.template,
+				wap: siteInfo.wap,
+				ip: siteInfo.ip,
+				isOn: siteInfo.isOn,
+				phoneNumber: siteInfo.phoneNumber,
+				email: siteInfo.email,
+				wap: siteInfo.wap,
+				isOn: siteInfo.isOn
 			},
 			showWaiting: true,
 			type: 'post', //HTTP请求类型
 			dataType: 'json',
 			success: function(data) {
-				app.log("data:"+JSON.stringify(data));
+				app.log("data:" + JSON.stringify(data));
 				return callback(data);
 			},
 			error: function(xhr, type, errorThrown) {
@@ -336,35 +1729,35 @@
 			}
 		});
 	}
-	
+
 	/*
 	 * 修改站点
 	 */
-	app.updateSite=function(siteInfo,callback){
+	app.updateSite = function(siteInfo, callback) {
 		app.ajax({
 			url: app.api['updateSite'],
-			data:{
-				id:siteInfo.id,
-				orderNum:siteInfo.orderNum,
-				name:siteInfo.name,
-				domain:siteInfo.domain,
-				seoTitle:siteInfo.seoTitle,
-				seoKeywords:siteInfo.seoKeywords,
-				seoDescription:siteInfo.seoDescription,
-				template:siteInfo.template,
-				wap:siteInfo.wap,
-				ip:siteInfo.ip,
-				isOn:siteInfo.isOn,
-				phoneNumber:siteInfo.phoneNumber,
-				email:siteInfo.email,
-				wap:siteInfo.wap,
-				isOn:siteInfo.isOn
+			data: {
+				id: siteInfo.id,
+				orderNum: siteInfo.orderNum,
+				name: siteInfo.name,
+				domain: siteInfo.domain,
+				seoTitle: siteInfo.seoTitle,
+				seoKeywords: siteInfo.seoKeywords,
+				seoDescription: siteInfo.seoDescription,
+				template: siteInfo.template,
+				wap: siteInfo.wap,
+				ip: siteInfo.ip,
+				isOn: siteInfo.isOn,
+				phoneNumber: siteInfo.phoneNumber,
+				email: siteInfo.email,
+				wap: siteInfo.wap,
+				isOn: siteInfo.isOn
 			},
 			showWaiting: true,
 			type: 'post', //HTTP请求类型
 			dataType: 'json',
 			success: function(data) {
-				app.log("data:"+JSON.stringify(data));
+				app.log("data:" + JSON.stringify(data));
 				return callback(data);
 			},
 			error: function(xhr, type, errorThrown) {
@@ -372,18 +1765,18 @@
 			}
 		});
 	}
-	
+
 	/*
 	 * 获取当前用户的站点列表
 	 */
-	app.siteList=function(callback){
+	app.siteList = function(callback) {
 		app.ajax({
-			url:app.api['siteList'],
-			type:'get',
+			url: app.api['siteList'],
+			type: 'get',
 			success: function(data) {
-				app.log("data:"+JSON.stringify(data));
-				siteinfo=app.getSiteInfo();
-				siteinfo=data.data;
+				app.log("data:" + JSON.stringify(data));
+				siteinfo = app.getSiteInfo();
+				siteinfo = data.data;
 				app.setSiteInfo();
 				return callback(siteinfo);
 			},
@@ -395,54 +1788,53 @@
 	/*
 	 * 添加站点时检测站点是否被占用
 	 */
-	app.addsiteUsed=function(domain,callback){
+	app.addsiteUsed = function(domain, callback) {
 		app.ajax({
-			url:app.api['siteUsed'],
-			type:'post',
-			data:{
-				domain:domain
+			url: app.api['siteUsed'],
+			type: 'post',
+			data: {
+				domain: domain
 			},
 			error: function(xhr, type, errorThrown) {
-				app.log("xhr:" + JSON.stringify(xhr)  + " -type:" + type + " -errorThrown:" + errorThrown);
-				if(xhr.valid==false){
+				app.log("xhr:" + JSON.stringify(xhr) + " -type:" + type + " -errorThrown:" + errorThrown);
+				if(xhr.valid == false) {
 					return callback(xhr.message);
 				}
 			}
 		});
 	}
-	
-	
+
 	/*
 	 * 修改站点时检测站点是否被占用
 	 */
-	app.updatesiteUsed=function(domain,olddomain,callback){
+	app.updatesiteUsed = function(domain, olddomain, callback) {
 		app.ajax({
-			url:app.api['siteUsed'],
-			type:'post',
-			data:{
-				domain:domain,
-				domainOld:olddomain
+			url: app.api['siteUsed'],
+			type: 'post',
+			data: {
+				domain: domain,
+				domainOld: olddomain
 			},
 
 			error: function(xhr, type, errorThrown) {
-				app.log("xhr:" + JSON.stringify(xhr)  + " -type:" + type + " -errorThrown:" + errorThrown);
-				if(xhr.valid==false){
+				app.log("xhr:" + JSON.stringify(xhr) + " -type:" + type + " -errorThrown:" + errorThrown);
+				if(xhr.valid == false) {
 					return callback(xhr.message);
 				}
 			}
 		});
 	}
-	
+
 	/*
 	 * 获取创建新站点系统分配的排序号
 	 */
-	app.addSiteOrderNum=function(callback){
-			app.ajax({
-			url:app.api['addSiteOrderNum'],
-			type:'get',
+	app.addSiteOrderNum = function(callback) {
+		app.ajax({
+			url: app.api['addSiteOrderNum'],
+			type: 'get',
 			success: function(data) {
-				app.log("排序号data:"+JSON.stringify(data));
-				return callback(data);
+				app.log("排序号data:" + JSON.stringify(data));
+				return callback(data.data);
 			},
 			error: function(xhr, type, errorThrown) {
 				app.log("排序号xhr:" + xhr + " -type:" + type + " -errorThrown:" + errorThrown);
@@ -1004,37 +2396,37 @@
 	/*
 	 * 手机号码修改
 	 */
-	app.phoneNumberRest = function(code,newPhoneNumber,callback) {
+	app.phoneNumberRest = function(code, newPhoneNumber, callback) {
 		app.ajax({
 			url: app.api['phoneNumberRest'],
 			type: 'post',
 			showWaiting: true,
-			data:{
-				code:code,
-				phoneNumber:newPhoneNumber,
-				deviceId:plus.device.uuid
+			data: {
+				code: code,
+				phoneNumber: newPhoneNumber,
+				deviceId: plus.device.uuid
 			},
 			success: function(data) {
 				app.log("手机号修改data:" + data);
-				return callback(data);  
-			},  
+				return callback(data);
+			},
 			error: function(xhr, type, errorThrown) {
 				app.log("失败:" + xhr + "::" + type + "::" + errorThrown);
 			}
-		});  
+		});
 	}
-	
+
 	/*
 	 * 手机号修改  手机号没有绑定情况下
 	 */
-	app.phoneNumber=function(code, newPhoneNumber,callback){
+	app.phoneNumber = function(code, newPhoneNumber, callback) {
 		app.ajax({
 			url: app.api['phoneNumber'],
 			type: 'post',
-			data:{
-				code:code,
-				phoneNumber:newPhoneNumber,
-				deviceId:plus.device.uuid
+			data: {
+				code: code,
+				phoneNumber: newPhoneNumber,
+				deviceId: plus.device.uuid
 			},
 			showWaiting: true,
 			success: function(data) {
@@ -1189,7 +2581,7 @@
 		var userinfoText = localStorage.getItem('$userinfo') || "{}";
 		return JSON.parse(userinfoText);
 	};
-	
+
 	/**
 	 *取出站点 信息 
 	 */
@@ -1197,11 +2589,11 @@
 		var siteinfoText = localStorage.getItem('$siteinfo') || "{}";
 		return JSON.parse(siteinfoText);
 	};
-	
+
 	/**
-	 *保存站点 信息 
+	 *保存站点 信息   
 	 */
-	app.setSiteInfo = function() {
+	app.setSiteInfo = function(siteinfo) {
 		siteinfo = siteinfo || {};
 		localStorage.setItem('$siteinfo', JSON.stringify(siteinfo));
 	};
@@ -1328,8 +2720,7 @@
 		});
 		index++;
 	}
-	
-	
+
 	// 上传文件
 	app.upload = function(callback) {
 		if(files.length <= 0) {
@@ -1344,10 +2735,10 @@
 			function(t, status) { //上传完成
 				console.log(JSON.stringify(t) + "---" + status);
 				if(status == 200) {
-					
-					var data=eval('(' + t.responseText + ')');
+
+					var data = eval('(' + t.responseText + ')');
 					app.log("上传成功：" + t.responseText);
-					app.log("data:"+data.data);
+					app.log("data:" + data.data);
 					wt.close();
 					return callback(data.data);
 				} else {
@@ -1368,17 +2759,19 @@
 		}
 		task.start();
 	}
-	
+
 	//修改头像
-	app.updateHeadImg=function(src,callback){
+	app.updateHeadImg = function(src, callback) {
 		app.ajax({
 			url: app.api['updateHeadImg'],
-			data: {avatar:src},
+			data: {
+				avatar: src
+			},
 			showWaiting: true,
 			type: 'post', //HTTP请求类型
 			success: function(data) {
 				app.log("修改头像success:" + JSON.stringify(data));
-				return callback(data);  
+				return callback(data);
 			},
 			error: function(data) {
 				app.log("修改头像error:" + data);
@@ -1386,7 +2779,5 @@
 
 		});
 	}
-  
-	
 
 }(mui, window.app = {}));

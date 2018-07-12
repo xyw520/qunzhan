@@ -19,7 +19,6 @@
 				/* path 和 stroke 溢出 viewBox 部分在 IE 下会显示
             	 normalize.css 中也包含这行 */
 				overflow: hidden;
-				
 			}
 			
 			li {
@@ -61,7 +60,13 @@
 				padding: 10px 0px;
 				margin-right: 10px;
 			}
+			
+			.x-toggleSite{
+				/*border:1px solid red;*/
+				
+			}
 		</style>
+		
 	</head>
 
 	<body>
@@ -72,113 +77,144 @@
 			<div class='x-right'></div>
 		</div>-->
 		<div class="mui-content">
-			
-				<div class="mui-scroll-wrapper"id="pullrefresh">
-					<div class="mui-scroll" id='content'>
-						<div class="mui-row x-wrap">
-							<div class="mui-col-sm-12 mui-col-xs-12" style="font-size: 24px;margin-top: 20px;">
-								<li class="mui-table-view-cell">
-									欢迎：
-								</li>
-							</div>
-							<div class="mui-col-sm-12 mui-col-xs-12">
-								<li class="mui-table-view-cell">
-									当前管理站点：
-								</li>
-							</div>
-							<div class='x-bg-mask'></div>
-						</div>
-						<div class='x-title'>
-							<span class='x-title-icon'></span>常用功能
-						</div>
-						<ul class="mui-table-view mui-grid-view mui-grid-9">
-							<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-								<a href="#">
-									<svg class="icon" aria-hidden="true">
-										<use xlink:href="#icon-liuyan"></use>
-									</svg>
-									<div class="mui-media-body">留言</div>
-								</a>
-							</li>
-							<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-								<a href="#">
-									<svg class="icon" aria-hidden="true">
-										<use xlink:href="#icon-dingdan"></use>
-									</svg>
-									<div class="mui-media-body">订单</div>
-								</a>
-							</li>
-							<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-								<a href="#">
-									<svg class="icon" aria-hidden="true">
-										<use xlink:href="#icon-tongji"></use>
-									</svg>
-									<div class="mui-media-body">统计</div>
-								</a>
-							</li>
-							<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="siteManage">
-								<a>
-									<svg class="icon" aria-hidden="true">
-										<use xlink:href="#icon-zhandianxinxi"></use>
-									</svg>
-									<div class="mui-media-body">站点管理</div>
-								</a>
-							</li>
-							<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-								<a href="#">
-									<svg class="icon" aria-hidden="true">
-										<use xlink:href="#icon-fenlei"></use>
-									</svg>
-									<div class="mui-media-body">分类</div>
-								</a>
-							</li>
-							<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-								<a href="#">
-									<svg class="icon" aria-hidden="true">
-										<use xlink:href="#icon-kepuwenzhang"></use>
-									</svg>
-									<div class="mui-media-body">文章</div>
-								</a>
-							</li>
-							<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-								<a href="#">
-									<svg class="icon" aria-hidden="true">
-										<use xlink:href="#icon-chanpin-copy"></use>
-									</svg>
-									<div class="mui-media-body">产品</div>
-								</a>
-							</li>
-							<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-								<a href="#">
-									<svg class="icon" aria-hidden="true">
-										<use xlink:href="#icon-tongji1"></use>
-									</svg>
-									<div class="mui-media-body">统计</div>
-								</a>
-							</li>
-							<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-								<a href="#">
-									<span class="mui-icon mui-icon-more"></span>
-									<div class="mui-media-body">more</div>
-								</a>
-							</li>
 
-						</ul>
+			<div class="mui-scroll-wrapper" id="pullrefresh">
+				<div class="mui-scroll" id='content'>
+					<div class="mui-row x-wrap">
+						<div class="mui-col-sm-12 mui-col-xs-12" style="font-size: 24px;margin-top: 20px;">
+							<li class="mui-table-view-cell">
+								欢迎：<span id='user'></span>
+							</li>
+						</div>
+						<div class="mui-col-sm-12 mui-col-xs-12">
+							<li class="mui-table-view-cell">
+								当前管理站点：<span id='currentSiteName'>{{siteName}}</span>
+							</li>
+						</div>
+						<div class="mui-col-sm-12 mui-col-xs-12" >
+							<li class="mui-table-view-cell" >
+								<a id='toggleSite' class='x-toggleSite'>切换站点</a>
+							</li>
+						</div>
+						<div class='x-bg-mask'></div>
 					</div>
+					<div class='x-title'>
+						<span class='x-title-icon'></span>常用功能
+					</div>
+					<ul class="mui-table-view mui-grid-view mui-grid-9">
+						<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id='msg'>
+							<a href="#">
+								<svg class="icon" aria-hidden="true">
+									<use xlink:href="#icon-liuyan"></use>
+								</svg>
+								<div class="mui-media-body">留言</div>
+							</a>
+						</li>
+						<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id='slide'>
+							<a href="#">
+								<svg class="icon" aria-hidden="true">
+									<use xlink:href="#icon-liuyan"></use>
+								</svg>
+								<div class="mui-media-body">幻灯片管理</div>
+							</a>
+						</li>
+						<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+							<a href="#">
+								<svg class="icon" aria-hidden="true">
+									<use xlink:href="#icon-dingdan"></use>
+								</svg>
+								<div class="mui-media-body">订单</div>
+							</a>
+						</li>
+						<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+							<a href="#">
+								<svg class="icon" aria-hidden="true">
+									<use xlink:href="#icon-tongji"></use>
+								</svg>
+								<div class="mui-media-body">统计</div>
+							</a>
+						</li>
+						<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="siteManage">
+							<a>
+								<svg class="icon" aria-hidden="true">
+									<use xlink:href="#icon-zhandianxinxi"></use>
+								</svg>
+								<div class="mui-media-body">站点管理</div>
+							</a>
+						</li>
+						<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+							<a href="#">
+								<svg class="icon" aria-hidden="true">
+									<use xlink:href="#icon-fenlei"></use>
+								</svg>
+								<div class="mui-media-body">分类</div>
+							</a>
+						</li>
+						<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="article">
+							<a href="#">
+								<svg class="icon" aria-hidden="true">
+									<use xlink:href="#icon-kepuwenzhang"></use>
+								</svg>
+								<div class="mui-media-body">文章</div>
+							</a>
+						</li>
+						<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id='product'>
+							<a href="#">
+								<svg class="icon" aria-hidden="true">
+									<use xlink:href="#icon-chanpin-copy"></use>
+								</svg>
+								<div class="mui-media-body">产品</div>
+							</a>
+						</li>
+						<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id='singlePageManage'>
+							<a href="#">
+								<svg class="icon" aria-hidden="true">
+									<use xlink:href="#icon-chanpin-copy"></use>
+								</svg>
+								<div class="mui-media-body">单页管理</div>
+							</a>
+						</li>
+						<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+							<a href="#">
+								<svg class="icon" aria-hidden="true">
+									<use xlink:href="#icon-tongji1"></use>
+								</svg>
+								<div class="mui-media-body">统计</div>
+							</a>
+						</li>
+						<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+							<a href="#">
+								<span class="mui-icon mui-icon-more"></span>
+								<div class="mui-media-body">more</div>
+							</a>
+						</li>
+
+					</ul>
+				</div>
 			</div>
 
 		</div>
+		
 		<script src="../js/mui.min.js"></script>
+		<script src="../js/myApp.js"></script>
+		<script src="../js/vue.min.js"></script>
 		<script type="text/javascript">
 			mui.init();
-
+			document.getElementById("user").innerHTML=app.getUserinfo().niceName;
+			//自定义事件，用于从设置页面返回之后更新图像
+			window.addEventListener('niceName', function() {
+				document.getElementById("user").innerHTML=app.getUserinfo().niceName;
+			});
+//			var ws=plus.webview.currentWebview();
+//			ws.id="main-home";
+//			console.log(plus.webview.currentWebview().id);
 			mui.plusReady(function() {
+				
 				var height = plus.display.resolutionHeight;
 				var minheight = height - 110;
 				var ph = height - 111;
 				document.getElementById("content").setAttribute("style", "min-height:" + minheight + "px;");
-				document.getElementById("pullrefresh").setAttribute("style", "height:" + ph+ "px;");
-
+				document.getElementById("pullrefresh").setAttribute("style", "height:" + ph + "px;");
 			});
 
 			mui('.mui-scroll-wrapper').scroll({
@@ -190,13 +226,90 @@
 				//				deceleration: 0.00000001, //阻尼系数,系数越小滑动越灵敏
 				bounce: true //是否启用回弹
 			});
-			
-			document.getElementById("siteManage").addEventListener('tap',function(){
+
+			document.getElementById("siteManage").addEventListener('tap', function() {
 				mui.openWindow({
-					url:'site-siteList.html',
-					id:'site-siteList'
+					url: 'site-siteList.html',
+					id: 'site-siteList'
 				});
 			});
+			
+			//单页管理
+			document.getElementById("singlePageManage").addEventListener('tap', function() {
+				mui.openWindow({
+					url: 'spcManage.html',
+					id: 'spcManage'
+				});
+			});
+			
+			//文章管理
+			document.getElementById("article").addEventListener('tap', function() {
+				mui.openWindow({
+					url: 'articleManage.html',
+					id: 'articleManage'
+				});
+			});
+			
+			//产品管理
+			document.getElementById("product").addEventListener('tap', function() {
+				mui.openWindow({
+					url: 'productManage.html',
+					id: 'productManage'
+				});
+			});
+			
+			//产品管理
+			document.getElementById("msg").addEventListener('tap', function() {
+				mui.openWindow({
+					url: 'msg-list.html',
+					id: 'msg-list'
+				});
+			});
+			
+			//幻灯片管理
+			document.getElementById("slide").addEventListener('tap', function() {
+				mui.openWindow({
+					url: 'slide-list.html',
+					id: 'slide-list'
+				});
+			});
+			
+			
+			document.getElementById("toggleSite").addEventListener('tap',function(){
+				var ws=plus.webview.currentWebview();
+				ws.id="main-home";
+				mui.openWindow({
+					url: 'site-toggleSite.html',
+					id: 'site-toggleSite'
+				});
+			});
+			
+			var vm=new Vue({
+				el:'#currentSiteName',
+				data:{
+					siteName:'111'
+				}
+			});
+			
+			
+			siteName();
+			function siteName(){
+				app.getSite(function(data){
+					if(data){
+						vm.siteName=data.name;
+					}else{
+						vm.siteName='未设置';
+					}
+					
+				});
+			}
+
+			window.addEventListener('reSitename',function(){
+				console.log('进入了事件');
+				siteName();
+				
+			});
+			
 		</script>
 	</body>
 

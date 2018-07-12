@@ -1,0 +1,165 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			input.x-input {
+				border: none;
+				border-bottom: 1px solid #ccc;
+			}
+			
+			.mui-content {
+				background-color: white;
+			}
+			
+			.mui-scroll {
+				background-color: white;
+				padding: 15px;
+			}
+			
+			#btnComplete {
+				float: right;
+				line-height: 45px;
+				margin-right: 15px;
+			}
+			
+			.edit-text {
+				/*min-height: 0.45rem;
+				font-size: 0.16rem;*/
+				color: #2e2e2e;
+				/*line-height: 0.25rem;*/
+				outline: none;
+				-webkit-user-select: text;
+				padding: 5px;
+			}
+			
+			.inputValue {
+				display: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">分类详情</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-scroll-wrapper" id='con-wrap' style="margin-top: 45px;">
+				<div class="mui-scroll" id='content'>
+
+					<div style="border-bottom: 1px solid #ccc;overflow: hidden;padding: 15px 0px;margin-bottom: 15px;">
+						<div>
+							<p style="float: left;line-height: 30px;">是否在导航栏显示：<span style="color:black;font-size: 18px;">{{isMenuTxt}}</span></p>
+						</div>
+						
+					</div>
+
+					<p>名称：</p>
+					<input type="text" class="x-input" id='name' v-model='name' readonly="readonly"/>
+
+					<p>页面模板：</p>
+					<input type="text" class="x-input" id="template" v-model='template' readonly="readonly"/>
+
+					<p>目录：</p>
+					<input type="text" class="x-input" id="dir" v-model='dir' @blur="atlCateDirUsed(dir,'')" readonly="readonly"/>
+					<p><span style='color:red'>{{degInfo}}</span></p>
+					<p><span style='color:green'>{{sefInfo}}</span></p>
+					<p>排序号：</p>
+					<input type="text" class="x-input" id='orderNum' v-model='orderNum' readonly="readonly"/>
+
+					<p>站点Id：</p>
+					<input type="text" class="x-input" id="siteId" v-model='siteId' readonly="readonly"/>
+
+					<p>SEO标题：</p>
+					<textarea id="seoTitle" v-model='seoTitle' readonly="readonly"></textarea>
+
+					<p>SEO关键词：</p>
+					<textarea id="seoKeywords" v-model='seoKeywords' readonly="readonly"></textarea>
+
+					<p>SEO描述：</p>
+					<textarea id="seoDescription" v-model='seoDescription' readonly="readonly"></textarea>
+
+				</div>
+			</div>
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/vue.min.js"></script>
+		<script src="../js/myApp.js"></script>
+		
+		<script type="text/javascript">
+			mui.init();
+
+			var vm = new Vue({
+				el: '#content',
+				data: {
+					isMenu: true,
+					isMenuTxt: '',
+					orderNum: '',
+					dir: "",
+					seoDescription: "",
+					seoKeywords: "",
+					seoTitle: "",
+					siteId: '',
+					template: "",
+					name: "",
+					//				classImg: "",
+
+					degInfo: '',
+					sefInfo: '',
+					flag: true //是否可以提交
+				}
+			});
+
+			//自定义监听事件
+			document.addEventListener('get_detail', function(e) {
+				var id = event.detail.id;
+				if(!id) {
+					return;
+				}
+
+				var item;
+
+				app.getInfoById(id,app.api['atlCateById'], function(data) {
+					item = data
+					
+					for(var key in item){
+						console.log(key+"="+item[key]);
+					}
+					vm.id = item.id;
+					vm.isMenu = item.isMenu;
+					vm.content = item.content;
+					vm.dir = item.dir;
+					vm.orderNum = item.orderNum;
+					vm.seoDescription = item.seoDescription;
+					vm.seoKeywords = item.seoKeywords;
+					vm.seoTitle = item.seoTitle;
+					vm.siteId = item.siteId;
+					vm.template = item.template;
+					vm.name = item.name;
+					vm.dirOld = item.dir;
+
+					vm.isMenuTxt = vm.isMenu ? '显示' : '不显示';
+
+				});
+
+			});
+
+			mui('.mui-scroll-wrapper').scroll({
+				scrollY: true, //是否竖向滚动
+				scrollX: true, //是否横向滚动
+				startX: 0, //初始化时滚动至x
+				startY: 0, //初始化时滚动至y
+				indicators: true, //是否显示滚动条
+				//deceleration: 0.00000001, //阻尼系数,系数越小滑动越灵敏
+				bounce: true //是否启用回弹
+			});
+		</script>
+	</body>
+
+</html>

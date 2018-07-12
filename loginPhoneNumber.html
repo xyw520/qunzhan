@@ -119,7 +119,11 @@
 							if(data){
 								mui.toast('自动登录失败');
 							}else{
-								plus.webview.open('index.html','index',{},'none',0,function(){mui.toast('已进入主页')});
+								mui.openWindow({
+									url:'index.html',
+									id:'index'
+									
+								});
 							}
 						});
 					}

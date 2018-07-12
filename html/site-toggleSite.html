@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">切换站点</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-scroll-wrapper" id='con-wrap' style='margin-top: 45px;'>
+				<div class="mui-scroll" id='content'>
+					<div class="mui-card" style="margin-bottom: 35px;">
+						<ul class="mui-table-view">
+
+							<li class="mui-table-view-cell mui-media" v-for="item in items" @tap="toggleSite(item)">
+								<a href="javascript:;">
+									<img class="mui-media-object mui-pull-right" src="../images/muwu.jpg">
+									<div class="mui-media-body">
+										名称：{{item.name}}--id：{{item.id}}
+										<p class='mui-ellipsis'>描述：{{item.seoDescription}}</p>
+									</div>
+								</a>
+							</li>
+
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/myApp.js"></script>
+		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.init({
+				//				preloadPages: [{
+				//					id: 'main-home.html',
+				//					url: 'main-home.html'
+				//				}]
+			});
+			_self = plus.webview.currentWebview();
+			//开启回弹
+			_self.setStyle({
+				popGesture: 'close' //首页有侧滑菜单，因此屏蔽首页的侧滑关闭功能
+			});
+
+			var site = new Vue({
+				el: '#content',
+				data: {
+					items: [] //列表信息流数据  
+				}
+			});
+			loadList();
+			window.addEventListener('reload', function(event) {
+				loadList();
+			});
+
+			function loadList() {
+				//获取站点列表
+				app.siteList(function(p) {
+					if(p) {
+						site.items = p;
+					}
+				});
+			}
+
+			var webview_detail = null;
+			//			var titleNView = { //详情页原生导航配置
+			//				backgroundColor: '#f7f7f7', //导航栏背景色
+			//				titleText: '', //导航栏标题
+			//				titleColor: '#000000', //文字颜色
+			//				type: 'transparent', //透明渐变样式
+			//				autoBackButton: true, //自动绘制返回箭头
+			//				splitLine: { //底部分割线
+			//					color: '#cccccc'
+			//				}
+			//			}
+			mui.plusReady(function() {
+
+			});
+
+			var home = null;
+
+			function toggleSite(item) {
+				app.switchSite(item.id, function(data) {
+					
+						mui.toast("切换成功");
+						//					//获取home页
+						//					if(!home){
+						//						home = plus.webview.getWebviewById('main-home');
+						//					}
+						//					console.log("home:" + home);
+						// 获取所有Webview窗口
+						var wvs = plus.webview.all();
+						for(var i = 0; i < wvs.length; i++) {
+							if(i == 2) {
+								console.log('webview' + i + ': ' + wvs[i].id);
+								home = wvs[i];
+							}
+						}
+
+						//触发home页获取当前站点信息事件
+						mui.fire(home, 'reSitename');
+
+						mui.back();
+
+				});
+			}
+
+			mui('.mui-scroll-wrapper').scroll({
+				scrollY: true, //是否竖向滚动
+				scrollX: true, //是否横向滚动
+				startX: 0, //初始化时滚动至x
+				startY: 0, //初始化时滚动至y
+				indicators: true, //是否显示滚动条
+				//deceleration: 0.00000001, //阻尼系数,系数越小滑动越灵敏
+				bounce: true //是否启用回弹
+			});
+		</script>
+	</body>
+
+</html>

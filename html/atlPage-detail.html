@@ -1,0 +1,250 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			input.x-input {
+				border: none;
+				border-bottom: 1px solid #ccc;
+			}
+			
+			.mui-content {
+				background-color: white;
+			}
+			
+			.mui-scroll {
+				background-color: white;
+				padding: 15px;
+			}
+			
+			#btnComplete {
+				float: right;
+				line-height: 45px;
+				margin-right: 15px;
+			}
+			
+			.edit-text {
+				/*min-height: 0.45rem;
+				font-size: 0.16rem;*/
+				color: #2e2e2e;
+				/*line-height: 0.25rem;*/
+				outline: none;
+				-webkit-user-select: text;
+				padding: 5px;
+			}
+			
+			.inputValue {
+				display: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">分类详情</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-scroll-wrapper" id='con-wrap' style="margin-top: 45px;">
+				<div class="mui-scroll" id='content'>
+
+					<div style="border-bottom: 1px solid #ccc;overflow: hidden;padding: 15px 0px;margin-bottom: 15px;">
+						<div>
+							<p style="float: left;line-height: 30px;">标题是否加粗：<span style="color:black;font-size: 18px;">{{isBoldTxt}}</span></p>
+						</div>
+					</div>
+
+					<div style="border-bottom: 1px solid #ccc;overflow: hidden;padding: 15px 0px;margin-bottom: 15px;">
+						<div>
+							<p style="float: left;line-height: 30px;">是否精华：<span style="color:black;font-size: 18px;">{{isEliteTxt}}</span></p>
+						</div>
+					</div>
+
+					<div style="border-bottom: 1px solid #ccc;overflow: hidden;padding: 15px 0px;margin-bottom: 15px;">
+						<div>
+							<p style="float: left;line-height: 30px;">是否推荐：<span style="color:black;font-size: 18px;">{{isRecommendTxt}}</span></p>
+						</div>
+					</div>
+
+					<div style="border-bottom: 1px solid #ccc;overflow: hidden;padding: 15px 0px;margin-bottom: 15px;">
+						<div>
+							<p style="float: left;line-height: 30px;">上是在回收站：<span style="color:black;font-size: 18px;">{{isRecycleTxt}}</span></p>
+						</div>
+					</div>
+
+					<p>作者：</p>
+					<input type="text" class="x-input" id='author' v-model='author' />
+
+					<p>分类ID：</p>
+					<input type="text" class="x-input" id='categoryId' v-model='categoryId' />
+
+					<p>点击数：</p>
+					<input type="text" class="x-input" id='clickNum' v-model='clickNum' />
+
+					<p>标题颜色：</p>
+					<input type="text" class="x-input" id='color' v-model='color' />
+
+					<p>编辑：</p>
+					<input type="text" class="x-input" id='editor' v-model='editor' />
+
+					<p>id：</p>
+					<input type="text" class="x-input" id='id' v-model='id' />
+
+					<p>来源：</p>
+					<input type="text" class="x-input" id='infoSource' v-model='infoSource' />
+
+					<p>来源网址：</p>
+					<input type="text" class="x-input" id='infoSourceUrl' v-model='infoSourceUrl' />
+
+					<p>图片组：</p>
+					<input type="text" class="x-input" id='images' v-model='images' />
+
+					<p>标题图片 - 不能超过 800 字符：</p>
+					<input type="text" class="x-input" id='titleImage' v-model='titleImage' />
+
+					<p>短标题 [短标题不能超过255个字符]</p>
+					<input type="text" class="x-input" id='titleShort' v-model='titleShort' />
+
+					<p>标题：</p>
+					<input type="text" class="x-input" id='title' v-model='title' />
+
+					<p>文件路径：</p>
+					<input type="text" class="x-input" id="path" v-model='path' @blur="atlPathUsed(path,'')" />
+					<p><span style='color:red'>{{degInfo}}</span></p>
+					<p><span style='color:green'>{{sefInfo}}</span></p>
+
+					<p>排序号：</p>
+					<input type="text" class="x-input" id='orderNum' v-model='orderNum' />
+
+					<p>站点Id：</p>
+					<input type="text" class="x-input" id="siteId" v-model='siteId' />
+
+					<p>SEO标题：</p>
+					<textarea id="seoTitle" v-model='seoTitle'></textarea>
+
+					<p>SEO关键词：</p>
+					<textarea id="seoKeywords" v-model='seoKeywords'></textarea>
+
+					<p>SEO描述：</p>
+					<textarea id="seoDescription" v-model='seoDescription'></textarea>
+
+					<p>内容：</p>
+					<textarea id="content" v-model='content'></textarea>
+
+				</div>
+			</div>
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/vue.min.js"></script>
+		<script src="../js/myApp.js"></script>
+		<script type="text/javascript">
+			mui.init();
+
+			var vm = new Vue({
+				el: '#content',
+				data: {
+					"author": '',
+					"categoryId": '',
+					"clickNum": '',
+					"color": '',
+					"content": '',
+					"editor": '',
+					"id": '',
+					"images": '',
+					"infoSource": '',
+					"infoSourceUrl": '',
+					"isBold": '',
+					"isBoldTxt": '',
+					"isElite": '',
+					"isEliteTxt": '',
+					"isRecommend": '',
+					"isRecommendTxt": '',
+					"isRecycle": '',
+					"isRecycleTxt": '',
+					"keywords": '',
+					"orderNum": '',
+					"path": '',
+					"seoDescription": '',
+					"seoKeywords": '',
+					"seoTitle": '',
+					"siteId": '',
+					"title": '',
+					"titleImage": '',
+					"titleShort": '',
+
+					degInfo: '',
+					sefInfo: '',
+					flag: true //是否可以提交
+				}
+			});
+
+			//自定义监听事件
+			document.addEventListener('get_detail', function(e) {
+				var id = event.detail.id;
+				if(!id) {
+					return;
+				}
+
+				var item;
+				
+				app.getInfoById(id, app.api['atlById'], function(data) {
+					item = data;
+
+					for(var key in item) {
+						console.log(key + '==' + item[key]);
+					}
+
+					vm.author = item.author;
+					vm.categoryId = item.categoryId;
+					vm.clickNum = item.clickNum;
+					vm.color = item.color;
+					vm.editor = item.editor;
+					vm.id = item.id;
+					vm.images = item.images;
+					vm.infoSource = item.infoSource;
+					vm.infoSourceUrl = item.infoSourceUrl;
+					vm.path = item.path;
+					vm.title = item.title;
+					vm.titleImage = item.titleImage;
+					vm.titleShort = item.titleShort;
+
+					vm.content = item.content;
+					vm.orderNum = item.orderNum;
+					vm.seoDescription = item.seoDescription;
+					vm.seoKeywords = item.seoKeywords;
+					vm.seoTitle = item.seoTitle;
+					vm.siteId = item.siteId;
+
+					vm.isBold = item.isBold;
+					vm.isElite = item.isElite;
+					vm.isRecommend = item.isRecommend;
+					vm.isRecycle = item.isRecycle;
+
+					vm.isBoldTxt = vm.isBold ? '是' : '否';
+					vm.isEliteTxt = vm.isElite ? '是' : '否';
+					vm.isRecommendTxt = vm.isRecommend ? '是' : '否';
+					vm.isRecycleTxt = vm.isRecycle ? '是' : '否';
+
+				});
+
+
+			});
+
+			mui('.mui-scroll-wrapper').scroll({
+				scrollY: true, //是否竖向滚动
+				scrollX: true, //是否横向滚动
+				startX: 0, //初始化时滚动至x
+				startY: 0, //初始化时滚动至y
+				indicators: true, //是否显示滚动条
+				//deceleration: 0.00000001, //阻尼系数,系数越小滑动越灵敏
+				bounce: true //是否启用回弹
+			});
+		</script>
+	</body>
+
+</html>

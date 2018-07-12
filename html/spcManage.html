@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">单页面管理</h1>
+		</header>
+		<div class="mui-content">
+		    <ul class="mui-table-view">
+		            <li class="mui-table-view-cell" id='addCate'>
+		                <a class="mui-navigate-right">
+		                    	单页分类管理
+		                </a>
+		            </li>
+		            <li class="mui-table-view-cell" id='addSinglePage'>
+		                <a class="mui-navigate-right">
+		                    	单页管理
+		                </a>
+		            </li>
+		            
+		           
+		        </ul>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			_self = plus.webview.currentWebview();
+			
+			_self.setStyle({
+				popGesture: 'close' //开启侧滑关闭功能
+			});
+
+			document.getElementById("addCate").addEventListener('tap',function(){
+				mui.openWindow({
+					url:'spc-list.html',
+					id:'spc-list',
+					show:{
+						aniShow:'slide-in-right'
+					}
+				});
+			});
+			
+			document.getElementById("addSinglePage").addEventListener('tap',function(){
+				mui.openWindow({
+					url:'spp-list.html',
+					id:'spp-list',
+					show:{
+						aniShow:'slide-in-right'
+					}
+				});
+			});
+		</script>
+	</body>
+
+</html>

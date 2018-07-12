@@ -1,0 +1,172 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/x-ui.css" />
+		<style type="text/css">
+
+		</style>
+
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" id='header'>
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">分类列表</h1>
+			<span id='btnComplete' class="x-btnComplete" v-on:click="add">添加</span>
+		</header>
+		<div class="mui-content">
+			<div class="mui-scroll-wrapper" id='con-wrap'>
+				<div class="mui-scroll" id='content'>
+
+					<!--<ul class="mui-table-view">
+							<li class="mui-table-view-cell" v-for='item in items' @tap="open_detail(item)">
+								<a class="mui-navigate-right">
+									id: {{item.id}}--name: {{item.name}}
+								</a>
+							</li>
+						</ul>-->
+
+					<ul class="mui-table-view">
+
+						<li class="mui-table-view-cell" :id="'li'+item.id" v-for='item in items' @tap="open_detail(item)">
+							<div class="mui-slider-right mui-disabled">
+								<!--<a class="mui-btn mui-btn-grey ">置顶</a>-->
+								<a class="mui-btn mui-btn-yellow " @tap.stop="open_updateDetail(item)">修改</a>
+								<a class="mui-btn mui-btn-red " @tap.stop="del(item)">删除</a>
+							</div>
+							<div class="mui-slider-handle">
+								<div class="mui-table-cell">
+									id: {{item.id}}--name: {{item.name}}
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/ui.js"></script>
+		<script src="../js/myApp.js"></script>
+		<script src="../js/vue.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			_self = plus.webview.currentWebview();
+
+			_self.setStyle({
+				popGesture: 'close' //开启侧滑关闭功能
+			});
+
+			var webview_update = null;
+			var webview_detail = null;
+
+			mui.plusReady(function() {
+
+				//预加载修改页面
+				webview_update = mui.preload({
+					url: 'atlCate-update.html',
+					id: 'atlCate-update'
+				});
+
+				//预加载详情页面
+				webview_detail = mui.preload({
+					url: 'atlCate-detail.html',
+					id: 'atlCate-detail'
+				});
+
+			});
+
+			var vm = new Vue({
+				el: '#content',
+				data: {
+					items: [] //列表信息流数据  
+				}
+			});
+
+			var vh = new Vue({
+				el: '#header',
+				methods: {
+					add: function() {
+						mui.openWindow({
+							url: 'atlCate-add.html',
+							id: 'atlCate-add'
+						});
+					}
+				}
+			})
+
+			reload();
+
+			function reload() {
+				app.atlCateList(function(data) {
+					vm.items = data;
+				});
+			}
+
+			window.addEventListener('reload', function() {
+				reload();
+			});
+
+			/**
+			 * 打开修改分类详情页面
+			 * 
+			 * @param {Object} item 当前点击的分类
+			 */
+			function open_updateDetail(item) {
+				//触发子窗口变更分类详情
+				mui.fire(webview_update, 'get_updateDetail', {
+					id: item.id
+				});
+				setTimeout(function() {
+					webview_update.show("slide-in-right", 300);
+				}, 150);
+
+			}
+
+			/**
+			 * 打开分类详情页面
+			 * 
+			 * @param {Object} item 当前点击的分类
+			 */
+			function open_detail(item) {
+				//触发子窗口变更分类详情
+				mui.fire(webview_detail, 'get_detail', {
+					id: item.id,
+				});
+				setTimeout(function() {
+					webview_detail.show("slide-in-right", 300);
+				}, 150);
+			}
+			
+			/**
+			 * 删除分类
+			 */
+			function del(item) {
+
+				var btn = ["确定", "取消"];
+				mui.confirm('确认删除？', '删除后将不可恢复', btn, function(e) {
+					if(e.index == 0) {
+						app.atlCateDel(item, function(data) {
+							if(data == 1) {
+								mui.toast('删除成功');
+								//刷新页面  
+								//						reload(); //发现此种方式呈现的效果不友好
+								//改用
+								var child = document.getElementById('li' + item.id);
+								child.parentNode.removeChild(child);
+							}
+						});
+					}
+				});
+
+			}
+
+			ui.scollBounce();
+		</script>
+	</body>
+
+</html>

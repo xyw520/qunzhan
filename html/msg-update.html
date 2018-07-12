@@ -1,0 +1,198 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<script src="../js/autosize.js"></script>
+		<style type="text/css">
+			input.x-input {
+				border: none;
+				border-bottom: 1px solid #ccc;
+			}
+			
+			.mui-content {
+				background-color: white;
+			}
+			
+			.mui-scroll {
+				background-color: white;
+				padding: 15px;
+			}
+			
+			#btnComplete {
+				float: right;
+				line-height: 45px;
+				margin-right: 15px;
+			}
+			
+			.edit-text {
+				/*min-height: 0.45rem;
+				font-size: 0.16rem;*/
+				color: #2e2e2e;
+				/*line-height: 0.25rem;*/
+				outline: none;
+				-webkit-user-select: text;
+				padding: 5px;
+			}
+			
+			.inputValue {
+				display: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">修改留言</h1>
+			<span id='btnComplete'>完成</span>
+		</header>
+		<div class="mui-content">
+			<div class="mui-scroll-wrapper" id='con-wrap' style="margin-top: 45px;">
+				<div class="mui-scroll" id='content'>
+
+					<p>标题：</p>
+					<input type="text" class="x-input" v-model='title' />
+
+					<p>手机号：</p>
+					<input type="text" class="x-input"  v-model='mobile' />  
+
+					<p>留言人：</p>
+					<input type="text" class="x-input"  v-model='name'  />
+					
+					<p>站点ID：</p>
+					<input type="text" class="x-input" id='siteId' v-model='siteId' />
+
+					<p>留言内容：</p>
+					<textarea id="seoTitle" v-model='content'></textarea>
+					
+					<p>回复人：</p>
+					<input type="text" class="x-input" id='siteId' v-model='replyName' />
+					
+					<p>回复内容：</p>
+					<textarea id="seoTitle" v-model='replyContent'></textarea>
+				
+				</div>
+			</div>
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/ui.js"></script>
+		<script src="../js/myApp.js"></script>
+		<script src="../js/vue.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+
+			var self = plus.webview.currentWebview();
+
+			var item = {
+				id:'',
+				content: "",
+				mobile: '',
+				name: '',
+				siteId: '',
+				title:'',	
+				orderNum:'',
+				replyContent: "",
+  				replyName: "",
+				//其他
+				degInfo: '',
+				sefInfo: '',
+				flag: true //是否可以提交
+			};
+			
+			
+			var vm = new Vue({
+				el: '#content',
+				data: item
+			});
+			
+			//获取站点
+			if(app.getSiteInfo().id){  
+				vm.siteId = app.getSiteInfo().id
+			}else{
+				mui.toast('账号已经过期，请重新登录');
+			}
+			
+			
+			//自定义监听事件
+			document.addEventListener('get_updateDetail', function(e) {
+				var id = event.detail.item.id;
+				if(!id) {
+					return;
+				}
+
+				//前页传入的数据直接渲染
+
+				var item = e.detail.item;
+				
+				for(var key in item){
+					console.log(key+'=='+item[key]);
+				}
+				
+				vm.content=item.content;
+				vm.mobile=item.mobile;
+				vm.name=item.name;
+				vm.siteId=item.siteId;
+				vm.title=item.title;
+				vm.orderNum=item.orderNum;
+				vm.replyContent=item.replyContent;
+  				vm.replyName=item.replyName;
+  				vm.id=item.id;
+			});
+
+			//备份mui.back，mui.back已将窗口关闭逻辑封装的比较完善（预加载及父子窗口），因此最好复用mui.back
+			var old_back = mui.back;
+			mui.back = function() {
+				var btn = ["确定", "取消"];
+				mui.confirm('确认关闭当前窗口？', '添加尚未完成', btn, function(e) {
+					if(e.index == 0) {
+						//执行mui封装好的窗口关闭逻辑；
+						old_back();
+					}
+				});
+			}
+			
+			//完成按钮
+			document.getElementById("btnComplete").addEventListener('tap', function() {
+
+				for(var key in item) {
+					app.log(key + "==" + item[key]);
+				}
+
+				app.msgUpdate(item, function(data) {
+					if(data) {
+						mui.toast('修改成功');
+						//获得列表界面的webview
+						var list = plus.webview.getWebviewById('msg-list');
+						//触发列表界面的自定义事件（reload）,从而进行数据刷新
+						mui.fire(list, 'reload');
+
+						//返回true，继续页面关闭逻辑
+						old_back();
+					}
+				});
+
+			});
+
+
+			autosize(document.querySelectorAll('textarea'));
+			mui('.mui-scroll-wrapper').scroll({
+				scrollY: true, //是否竖向滚动
+				scrollX: true, //是否横向滚动
+				startX: 0, //初始化时滚动至x
+				startY: 0, //初始化时滚动至y
+				indicators: true, //是否显示滚动条
+				//deceleration: 0.00000001, //阻尼系数,系数越小滑动越灵敏
+				bounce: true //是否启用回弹
+			});
+			
+			
+			
+		</script>
+	</body>
+
+</html>

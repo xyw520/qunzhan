@@ -1,0 +1,370 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<script src="../js/autosize.js"></script>
+		<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+		<style type="text/css">
+			input.x-input {
+				border: none;
+				border-bottom: 1px solid #ccc;
+			}
+			
+			.mui-content {
+				background-color: white;
+			}
+			
+			.mui-scroll {
+				background-color: white;
+				padding: 15px;
+			}
+			
+			#btnComplete {
+				float: right;
+				line-height: 45px;
+				margin-right: 15px;
+			}
+			
+			.edit-text {
+				/*min-height: 0.45rem;
+				font-size: 0.16rem;*/
+				color: #2e2e2e;
+				/*line-height: 0.25rem;*/
+				outline: none;
+				-webkit-user-select: text;
+				padding: 5px;
+			}
+			
+			.inputValue {
+				display: none;
+			}
+			
+			.mui-scroll {
+				padding: 0px;
+			}
+			
+			.mui-collapse {
+				margin-bottom: 15px;
+			}
+			
+			.mui-input-row label~input {
+				width: 73%;
+				font-size: 14px;
+			}
+			
+			.mui-input-row label {
+				width: 27%;
+			}
+			
+			.mui-input-group input,
+			.mui-input-group textarea {
+				font-size: 14px;
+			}
+			
+			.mui-numbox {
+				width: 180px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">产品详情</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-scroll-wrapper" id='con-wrap' style="margin-top: 45px;">
+				<div class="mui-scroll" id='content'>
+					<div class="mui-card">
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell mui-collapse mui-active">
+								<a class="mui-navigate-right" href="#">基本信息</a>
+								<div class="mui-collapse-content">
+									<form class="mui-input-group">
+										<div class="mui-input-row">
+											<label>所属分类</label>
+											<input type="text" placeholder="普通输入框" v-model='categoryId'>
+										</div>
+
+										<div class="mui-input-row">
+											<label>标题</label>
+											<input type="text" placeholder="标题必须在 2-255个字符之间" v-model='title'>
+										</div>
+										<div class="mui-input-row">
+											<label>短标题</label>
+											<input type="text" class="mui-input-clear" placeholder="短标题不能超过255个字符" v-model='titleShort'>
+										</div>
+
+										<div class="mui-input-row mui-plus-visible">
+											<label>路径</label>
+											<input type="text" class=" mui-input-clear" placeholder="请输入路径" v-model='path' :name='pathOld' @blur="pdtPathUsed(path,pathOld)">
+										</div>
+										<p style="text-align: center;"><span style='color:red'>{{degInfo}}</span></p>
+										<p style="text-align: center;"><span style='color:green'>{{sefInfo}}</span></p>
+
+										<div class="mui-input-row mui-plus-visible">
+											<label>关键词</label>
+											<input type="text" class="mui-input-speech mui-input-clear" placeholder="不能超过255个字符" v-model='keywords'>
+										</div>
+										<div class="mui-input-row mui-plus-visible">
+											<label>模板</label>
+											<input type="text" class="mui-input-clear" placeholder="不能超过255个字符" v-model='template'>
+										</div>
+
+									</form>
+								</div>
+							</li>
+						</ul>
+
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell mui-collapse ">
+								<a class="mui-navigate-right" href="#">SEO信息[可选填写/不填写自动补全]</a>
+								<div class="mui-collapse-content">
+									<form class="mui-input-group">
+										<div class="mui-input-row">
+											<label>SEO标题</label>
+										</div>
+										<textarea id="content" v-model='seoTitle' placeholder="输入SEO标题"></textarea>
+										<div class="mui-input-row">
+											<label>SEO关键词</label>
+										</div>
+										<textarea id="content" v-model='seoKeywords' placeholder="输入SEO关键词"></textarea>
+										<div class="mui-input-row mui-plus-visible">
+											<label>SEO描述</label>
+										</div>
+										<textarea id="content" v-model='seoDescription' placeholder="输入SEO描述"></textarea>
+									</form>
+								</div>
+							</li>
+						</ul>
+
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell mui-collapse ">
+								<a class="mui-navigate-right" href="#">标题图片/大图</a>
+								<div class="mui-collapse-content">
+									<form class="mui-input-group">
+										<div class="mui-input-row">
+											<label>标题图</label>
+											<input type="text" placeholder="普通输入框" v-model='titleImage'>
+										</div>
+										<div class="mui-input-row">
+											<label>图片组</label>
+											<input type="text" class="mui-input-clear" placeholder="带清除按钮的输入框" v-model='images'>
+										</div>
+
+									</form>
+								</div>
+							</li>
+						</ul>
+
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell mui-collapse ">
+								<a class="mui-navigate-right" href="#">基本属性</a>
+								<div class="mui-collapse-content">
+									<form class="mui-input-group">
+										<div class="mui-input-row">
+											<label>排序号</label>
+											<input type="text" placeholder="请输入排序号" v-model='orderNum'>
+										</div>
+										<div class="mui-input-row">
+											<label>产品编号</label>
+											<input type="text" placeholder="产品编号不能超过255个字符" v-model='productNumber'>
+										</div>
+										<div class="mui-input-row">
+											<label>价格</label>
+											<input type="text" class="mui-input-clear" placeholder="请输入价格" v-model='price'>
+										</div>
+
+										<div class="mui-input-row">
+											<label>数量</label>
+											<div class="mui-numbox" data-numbox-min='1' data-numbox-max='999' style='float: left;'>
+												<button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
+												<input id="test" class="mui-input-numbox" type="number" value="5" v-model='nums' />
+												<button class="mui-btn mui-btn-numbox-plus" type="button">+</button>
+											</div>
+										</div>
+										<div class="mui-input-row">
+											<label>邮费</label>
+											<input type="text" class="mui-input-clear" placeholder="请输入邮费" v-model='postage'>
+										</div>
+										<div class="mui-input-row">
+											<label>等级/星级</label>
+											<div class="mui-numbox" data-numbox-min='1' data-numbox-max='999' style='float: left;'>
+												<button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
+												<input id="test" class="mui-input-numbox" type="number" value="5" v-model='level' />
+												<button class="mui-btn mui-btn-numbox-plus" type="button">+</button>
+											</div>
+										</div>
+
+										<div class="mui-input-row">
+											<label>已售数量</label>
+											<div class="mui-numbox" data-numbox-min='1' data-numbox-max='999' style='float: left;'>
+												<button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
+												<input id="test" class="mui-input-numbox" type="number" value="5" v-model='salesNums' />
+												<button class="mui-btn mui-btn-numbox-plus" type="button">+</button>
+											</div>
+										</div>
+										<div class="mui-input-row">
+											<label>品牌</label>
+											<input type="text" class="mui-input-clear" placeholder="品牌不能超过255个字符" v-model='brand'>
+										</div>
+
+									</form>
+								</div>
+							</li>
+						</ul>
+
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell mui-collapse ">
+								<a class="mui-navigate-right" href="#">详细内容</a>
+								<div class="mui-collapse-content">
+									<form class="mui-input-group">
+										<textarea id="content" v-model='content' placeholder="请输入详细内容"></textarea>
+									</form>
+								</div>
+							</li>
+						</ul>
+
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell mui-collapse ">
+								<a class="mui-navigate-right" href="#">非必须</a>
+								<div class="mui-collapse-content">
+									<form class="mui-input-group">
+										<div class="mui-input-row">
+											<label>发布时间</label>
+											<label id='result' style='width: 40%;'></label>
+											<button id='demo1' data-options='{}' class="btn mui-btn mui-btn-block" style='float: right;width: 130px;font-size: 14px;'>选择日期时间 </button>
+										</div>
+										<div class="mui-input-row">
+											<label>点击数</label>
+											<div class="mui-numbox" data-numbox-min='1' data-numbox-max='999' style='float: left;'>
+												<button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
+												<input id="test" class="mui-input-numbox" type="number" value="5" v-model="clickNum" />
+												<button class="mui-btn mui-btn-numbox-plus" type="button">+</button>
+											</div>
+										</div>
+
+									</form>
+								</div>
+							</li>
+						</ul>
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/ui.js"></script>
+		<script src="../js/myApp.js"></script>
+		<script src="../js/mui.picker.min.js"></script>
+		<script src="../js/vue.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			var self = plus.webview.currentWebview();
+
+			var item = {
+				"categoryId": "",
+				"productNumber": '',
+				"price": '',
+				"nums": '',
+				"postage": "",
+				"level": "",
+				"salesNums": "",
+				"brand": "",
+				"seoDescription": '',
+				"seoKeywords": '',
+				"seoTitle": '',
+				"keywords": '',
+				"orderNum": '',
+				"path": '',
+				"pathOld": '',
+				"clickNum": '',
+				"title": '',
+				"titleShort": '',
+				"titleImage": '',
+				"images": "",
+				"content": '',
+				"template": "",
+				"siteId": '',
+				"id": '',
+
+				degInfo: '',
+				sefInfo: '',
+				flag: true //是否可以提交
+			};
+
+			var vm = new Vue({
+				el: '#content',
+				data: item
+			});
+
+			//获取站点
+			if(app.getSiteInfo().id) {
+				vm.siteId = app.getSiteInfo().id
+			} else {
+				mui.toast('账号已经过期，请重新登录');
+			}
+
+			//自定义监听事件
+			document.addEventListener('get_Detail', function(e) {
+				var id = e.detail.item.id;
+				console.log("event.detail.item.id:" + e.detail.item.id)
+				if(!id) {
+					return;
+				}
+
+				//前页传入的数据直接渲染
+
+				var item = e.detail.item;
+
+				vm.productNumber = item.productNumber;
+				vm.price = item.price;
+				vm.nums = item.nums;
+				vm.postage = item.postage;
+				vm.level = item.level;
+				vm.salesNums = item.salesNums;
+				vm.brand = item.brand;
+				vm.seoDescription = item.seoDescription;
+				vm.seoKeywords = item.seoKeywords;
+				vm.seoTitle = item.seoTitle;
+				vm.keywords = item.keywords;
+				vm.orderNum = item.orderNum;
+				vm.path = item.path;
+				vm.pathOld = item.path;
+				vm.clickNum = item.clickNum;
+				vm.title = item.title;
+				vm.titleShort = item.titleShort;
+				vm.titleImage = item.titleImage;
+				vm.images = item.images;
+				vm.content = item.content;
+				vm.template = item.template;
+				vm.siteId = item.siteId;
+				vm.id = item.id;
+				vm.categoryId = item.categoryId;
+			});
+
+			autosize(document.querySelectorAll('textarea'));
+			mui('.mui-scroll-wrapper').scroll({
+				scrollY: true, //是否竖向滚动
+				scrollX: true, //是否横向滚动
+				startX: 0, //初始化时滚动至x
+				startY: 0, //初始化时滚动至y
+				indicators: true, //是否显示滚动条
+				//deceleration: 0.00000001, //阻尼系数,系数越小滑动越灵敏
+				bounce: true //是否启用回弹
+			});
+
+			self.setStyle({
+				popGesture: 'hide' // 侧滑返回后隐藏webview
+			});
+		</script>
+
+	</body>
+
+</html>

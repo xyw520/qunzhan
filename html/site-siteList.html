@@ -57,7 +57,7 @@
 						</div>
 						<div class="mui-card-footer">
 							<a class="mui-card-link">置顶</a>
-							<a class="mui-card-link" :data-guid="item.id" @tap="open_detail(item)">修改</a>
+							<a class="mui-card-link"  @tap="open_detail(item)">修改</a>
 						</div>
 					</div>
 
@@ -79,9 +79,9 @@
 			mui.init();
 			document.getElementById("site1").setAttribute('style', 'background-image: url(../images/site1.png);height:50vw;background-size: cover;background-position: top;');
 			_self = plus.webview.currentWebview();
-			//开启回弹
+			
 			_self.setStyle({
-				popGesture: 'close' //首页有侧滑菜单，因此屏蔽首页的侧滑关闭功能
+				popGesture: 'close' //开启侧滑关闭功能
 			});
 
 			

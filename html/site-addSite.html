@@ -37,7 +37,6 @@
 				-webkit-user-select: text;
 				padding: 5px;
 			}
-			
 		</style>
 	</head>
 
@@ -45,7 +44,7 @@
 		<header class="mui-bar mui-bar-nav">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 			<h1 class="mui-title">添加站点</h1>
-			<span id='btnComplete'>完成</span>  
+			<span id='btnComplete'>完成</span>
 		</header>
 		<div class="mui-content">
 			<div class="mui-scroll-wrapper" id='con-wrap'>
@@ -69,8 +68,8 @@
 						</div>
 					</div>
 
-					<p>订单号：</p>
-					<input type="text" class="x-input" id='orderNum' value='0' />
+					<p>排序号：</p>
+					<input type="text" class="x-input" id='orderNum' value='' />
 
 					<p>网站名称：</p>
 					<input type="text" class="x-input" id="name" value='xyw0000' />
@@ -81,7 +80,7 @@
 					<p>SEO标题：</p>
 					<!--<input type="text" class="x-input" id="seoTitle" value='sssss' />-->
 					<textarea id="seoTitle">2222222</textarea>
-						
+
 					<p>SEO关键词：</p>
 					<!--<input type="text" class="x-input" id="seoKeywords" value='sssss' />-->
 					<textarea id="seoKeywords">333333</textarea>
@@ -108,7 +107,7 @@
 		<script src="../js/ui.js"></script>
 		<script src="../js/myApp.js"></script>
 		<script type="text/javascript">
-			autosize(document.querySelectorAll('textarea'));  
+			autosize(document.querySelectorAll('textarea'));
 			mui.init();
 			ui.scollBounce();
 
@@ -153,16 +152,25 @@
 					console.log("关闭状态");
 				}
 			}
+			
+			
+			var objInputs = document.querySelectorAll('input');
+			var objTextarea = document.querySelectorAll('textarea');
+			//获取系统分配的排序号
+			app.addSiteOrderNum(function(data) {
+				if(data) {
+					siteInfo.orderNum = data;
+					objInputs[0].value = siteInfo.orderNum;
+					console.log("siteInfo.orderNum:" + siteInfo.orderNum);
+				}
+			});
 
 			//			document.getElementById("cancel").addEventListener('tap', function() {
 			//				mui.back();
 			//			});
 
 			document.getElementById("btnComplete").addEventListener('tap', function() {
-				
-				var objInputs = document.querySelectorAll('input');
-				var objTextarea=document.querySelectorAll('textarea');
-				
+
 				siteInfo.orderNum = objInputs[0].value;
 				siteInfo.name = objInputs[1].value;
 				siteInfo.domain = objInputs[2].value;
@@ -170,7 +178,7 @@
 				siteInfo.ip = objInputs[4].value;
 				siteInfo.phoneNumber = objInputs[5].value;
 				siteInfo.email = objInputs[6].value;
-				
+
 				siteInfo.seoTitle = objTextarea[0].value;
 				siteInfo.seoKeywords = objTextarea[1].value;
 				siteInfo.seoDescription = objTextarea[2].value;
@@ -178,14 +186,10 @@
 				for(var key in siteInfo) {
 					app.log(key + "==" + siteInfo[key]);
 				}
+
 				app.addSite(siteInfo, function(data) {
 					if(data) {
 						mui.toast('添加成功');
-						console.log("获取排序号------------------------------------")
-						app.addSiteOrderNum(function(data){
-							
-						});
-						
 						//获得列表界面的webview
 						var list = plus.webview.getWebviewById('site-siteList');
 						//触发列表界面的自定义事件（refresh）,从而进行数据刷新
@@ -196,39 +200,35 @@
 				});
 
 			});
-			
-		
+
 			//域名 失去焦点事件
-			document.getElementById("domain").addEventListener('blur',function(){
-				app.addsiteUsed(this.value,function(data){
-					if(data){
-						document.getElementById("domainInfo").innerText='提示：'+data;
+			document.getElementById("domain").addEventListener('blur', function() {
+				app.addsiteUsed(this.value, function(data) {
+					if(data) {
+						document.getElementById("domainInfo").innerText = '提示：' + data;
 					}
 				})
 			});
-			
-			
+
 			//手机号码 失去焦点事件
-			document.getElementById("phoneNumber").addEventListener('blur',function(){
-				if(app.Reg.IS_MOBILE.test(this.value)){
-					document.getElementById("phoneNumberInfo").innerHTML='';
-				}else{
-					document.getElementById("phoneNumberInfo").innerHTML='<span style="color:red">手机号码格式不对</span>';
+			document.getElementById("phoneNumber").addEventListener('blur', function() {
+				if(app.Reg.IS_MOBILE.test(this.value)) {
+					document.getElementById("phoneNumberInfo").innerHTML = '';
+				} else {
+					document.getElementById("phoneNumberInfo").innerHTML = '<span style="color:red">手机号码格式不对</span>';
 					return false;
 				}
 			});
-			
+
 			//邮箱 失去焦点事件
-			document.getElementById("email").addEventListener('blur',function(){
-				if(app.Reg.EMAIL.test(this.value)){
-					document.getElementById("emailInfo").innerHTML='';
-				}else{
-					document.getElementById("emailInfo").innerHTML='<span style="color:red">邮箱格式不对</span>';
+			document.getElementById("email").addEventListener('blur', function() {
+				if(app.Reg.EMAIL.test(this.value)) {
+					document.getElementById("emailInfo").innerHTML = '';
+				} else {
+					document.getElementById("emailInfo").innerHTML = '<span style="color:red">邮箱格式不对</span>';
 					return false;
 				}
 			});
-			
-			
 		</script>
 	</body>
 

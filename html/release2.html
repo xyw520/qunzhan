@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/iconfont.css" />
+		<style>
+			.st,
+			.at {
+				line-height: 47px;
+				padding: 0px 20px;
+			}
+			
+			.at {
+				float: right;
+			}
+			
+			body,
+			.mui-content,
+			input[type=text],
+			textarea {
+				background-color: rgb(239, 239, 229);
+			}
+			
+			input[type=text],
+			textarea {
+				border: none;
+			}
+			
+			input[type=text] {
+				font-size: 24px;
+				border-bottom: 2px dashed #999;
+				padding-top: 30px;
+				padding-bottom: 30px;
+			}
+			
+			.category {
+				display: block;
+				margin: 10px 5px;
+				padding: 0px 20px;
+				background-color: white;
+				height: 35px;
+				line-height: 35px;
+				border-radius: 20px;
+				font-size: 14px;
+				color: #777;
+				text-align: center;
+			}
+			
+			.category span {
+				font-size: 22px;
+				margin-right: 10px;
+			}
+			
+			.mui-popover {
+				height: 300px;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+
+			<span class="st">0字</span>
+			<a href="" class="at">发布</a>
+		</header>
+		<div class="mui-content">
+			<form action="">
+				<div class="mui-input-row" style="margin: 10px 5px;">
+					<input type="text" placeholder="输入标题">
+				</div>
+				<div class="mui-input-row" style="margin: 10px 5px;">
+					<textarea id="textarea" rows="15" placeholder="输入内容"></textarea>
+				</div>
+			</form>
+
+			<a href="#middlePopover" class="category">
+				<span class="iconfont icon-ziyuan"></span> 选择分类
+			</a>
+
+		</div>
+
+		<div id="middlePopover" class="mui-popover">
+			<div class="mui-popover-arrow"></div>
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<ul class="mui-table-view" id='categoryName'>
+						
+					</ul>
+				</div>
+			</div>
+
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+
+			mui('.mui-scroll-wrapper').scroll();
+			mui('body').on('shown', '.mui-popover', function(e) {
+				//console.log('shown', e.detail.id);//detail为当前popover元素
+			});
+			mui('body').on('hidden', '.mui-popover', function(e) {
+				//console.log('hidden', e.detail.id);//detail为当前popover元素
+			});
+
+			mui.plusReady(function() {
+				var sData = plus.webview.currentWebview();
+				var objul = document.getElementById("categoryName");
+				var categoryNames=sData.name;
+				
+				for(var i=0;i<categoryNames.length;i++){
+					
+					var objli=document.createElement('li');
+					objli.setAttribute('class','mui-table-view-cell');
+					var obja=document.createElement('a');	
+					
+					obja.innerText=categoryNames[i];
+															
+					objli.appendChild(obja);
+					objul.appendChild(objli);
+					
+//					nameObj[0].innerHTML = '<li class="mui-table-view-cell"><a href="#">'+categoryNames[0]+'</a></li>'
+//					nameObj[0].innerHTML = '<li class="mui-table-view-cell"><a href="#">'+categoryNames[1]+'</a></li>'
+				}
+				
+				
+							
+				
+				
+			});
+		</script>
+	</body>
+
+</html>

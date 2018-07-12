@@ -1,0 +1,253 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			input.x-input {
+				border: none;
+				border-bottom: 1px solid #ccc;
+			}
+			
+			.mui-content {
+				background-color: white;
+			}
+			
+			.mui-scroll {
+				background-color: white;
+				padding: 15px;
+			}
+			
+			#btnComplete {
+				float: right;
+				line-height: 45px;
+				margin-right: 15px;
+			}
+			
+			.edit-text {
+				/*min-height: 0.45rem;
+				font-size: 0.16rem;*/
+				color: #2e2e2e;
+				/*line-height: 0.25rem;*/
+				outline: none;
+				-webkit-user-select: text;
+				padding: 5px;
+			}
+			
+			.inputValue {
+				display: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">修改分类</h1>
+			<span id='btnComplete'>完成</span>
+		</header>
+		<div class="mui-content">
+			<div class="mui-scroll-wrapper" id='con-wrap' style="margin-top: 45px;">
+				<div class="mui-scroll" id='content'>
+
+					<div style="border-bottom: 1px solid #ccc;overflow: hidden;padding: 15px 0px;margin-bottom: 15px;">
+						<div>
+							<p style="float: left;line-height: 30px;">是否在导航栏显示：<span style="color:black;font-size: 18px;">{{isMenuTxt}}</span></p>
+						</div>
+						<div class="mui-switch" style="float: right;" :class="{'mui-active':isMenu}" id="isMenu">
+							<div class="mui-switch-handle"></div>
+						</div>
+					</div>
+
+					<p>名称：</p>
+					<input type="text" class="x-input" id='name' v-model='name' />
+
+					<p>页面模板：</p>
+					<input type="text" class="x-input" id="template" v-model='template' />
+
+					<p>目录：</p>
+					<input type="text" class="x-input" id="dir" v-model='dir' :name='dirOld' @blur="pdtCateDirUsed(dir,dirOld)" />
+					<p><span style='color:red'>{{degInfo}}</span></p>
+					<p><span style='color:green'>{{sefInfo}}</span></p>
+					<p>排序号：</p>
+					<input type="text" class="x-input" id='orderNum' v-model='orderNum' />
+
+					<p>站点Id：</p>
+					<input type="text" class="x-input" id="siteId" v-model='siteId' />
+
+					<p>SEO标题：</p>
+					<textarea id="seoTitle" v-model='seoTitle'></textarea>
+
+					<p>SEO关键词：</p>
+					<textarea id="seoKeywords" v-model='seoKeywords'></textarea>
+
+					<p>SEO描述：</p>
+					<textarea id="seoDescription" v-model='seoDescription'></textarea>
+
+				</div>
+			</div>
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/autosize.js"></script>
+		<script src="../js/vue.min.js"></script>
+		<script src="../js/myApp.js"></script>
+		<script type="text/javascript">
+			mui.init();
+
+			var item = {
+
+				//可不填
+				isMenu: true,
+				isMenuTxt: '是',
+				classImg: 'ss',
+				keywords: 'ss',
+				microImgHeight: '60',
+				microImgWidth: '60',
+				id: '',
+
+				//必填
+				name: "ss",
+				orderNum: '',
+				dir: "",
+				seoDescription: "sssss",
+				seoKeywords: "ssss",
+				seoTitle: "ssss",
+				siteId: '',
+				template: "sssss",
+
+				//其他
+				degInfo: '',
+				sefInfo: '',
+				dirOld: '',
+				flag: true //是否可以提交
+			};
+
+			var vm = new Vue({
+				el: '#content',
+				data: item
+			});
+
+			//自定义监听事件
+			document.addEventListener('get_updateDetail', function(e) {
+				var id = event.detail.id;
+				if(!id) {
+					return;
+				}
+
+				var item;
+
+				app.getInfoById(id, app.api['pdtCateById'], function(data) {
+					item=data;
+					for(var key in item) {
+						console.log(key + '==' + item[key]);
+					}
+					vm.id = item.id;
+					vm.name = item.name;
+					vm.template = item.template;
+					vm.dir = item.dir;
+					vm.dirOld = item.dir;
+					vm.orderNum = item.orderNum;
+					vm.seoDescription = item.seoDescription;
+					vm.seoKeywords = item.seoKeywords;
+					vm.seoTitle = item.seoTitle;
+					vm.siteId = item.siteId;
+					vm.dir = item.dir;
+
+					vm.isMenu = item.isMenu;
+
+					vm.isMenuTxt = vm.isMenu ? '是' : '否';
+
+				});
+
+			});
+
+			//获取站点
+			if(app.getSiteInfo().id) {
+				vm.siteId = app.getSiteInfo().id
+			} else {
+				mui.toast('账号已经过期，请重新登录');
+			}
+
+			mui(".mui-scroll").on('toggle', '.mui-switch', function() {
+				if(event.detail.isActive) {
+					mui.toast('已开启');
+					get_switch()
+				} else {
+					mui.toast('已关闭');
+					get_switch()
+				}
+			});
+
+			function get_switch() {
+				vm.isMenu = document.getElementById("isMenu").classList.contains("mui-active");
+				vm.isMenuTxt = vm.isMenu ? '是' : '否';
+			}
+
+			//添加时，检测路径是否被占用 
+			function pdtCateDirUsed(path, pathOld) {
+				app.pdtCateDirUsed(path, pathOld, function(data) {
+					if(data == true) {
+						vm.sefInfo = '提示：目录可以使用';
+						vm.degInfo = '';
+						vm.flag = true;
+					} else {
+						vm.sefInfo = '';
+						vm.degInfo = '提示：目录已被占用，请重填';
+						vm.flag = false;
+					}
+				});
+			}
+
+			//备份mui.back，mui.back已将窗口关闭逻辑封装的比较完善（预加载及父子窗口），因此最好复用mui.back
+			var old_back = mui.back;
+			mui.back = function() {
+				var btn = ["确定", "取消"];
+				mui.confirm('确认关闭当前窗口？', '修改尚未完成', btn, function(e) {
+					if(e.index == 0) {
+						//执行mui封装好的窗口关闭逻辑；
+						old_back();
+					}
+				});
+			}
+
+			//完成按钮
+			document.getElementById("btnComplete").addEventListener('tap', function() {
+
+				for(var key in item) {
+					app.log(key + "1==" + item[key]);
+				}
+
+				app.pdtCateUpdate(item, function(data) {
+					if(data) {
+						mui.toast('修改成功');
+						//获得列表界面的webview
+						var list = plus.webview.getWebviewById('pdtCate-list');
+						//触发列表界面的自定义事件（reload）,从而进行数据刷新
+						mui.fire(list, 'reload', {
+							cateId: vm.categoryId
+						});
+						//返回true，继续页面关闭逻辑
+						old_back();
+					}
+				});
+			});
+
+			autosize(document.querySelectorAll('textarea'));
+
+			mui('.mui-scroll-wrapper').scroll({
+				scrollY: true, //是否竖向滚动
+				scrollX: true, //是否横向滚动
+				startX: 0, //初始化时滚动至x
+				startY: 0, //初始化时滚动至y
+				indicators: true, //是否显示滚动条
+				//deceleration: 0.00000001, //阻尼系数,系数越小滑动越灵敏
+				bounce: true //是否启用回弹
+			});
+		</script>
+	</body>
+
+</html>

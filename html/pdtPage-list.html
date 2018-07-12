@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="../css/x-ui.css" />
+		<style>
+			.mui-row.mui-fullscreen>[class*="mui-col-"] {
+				height: 100%;
+			}
+			
+			.mui-col-xs-3,
+			.mui-control-content {
+				overflow-y: auto;
+				height: 100%;
+			}
+			
+			.mui-segmented-control .mui-control-item {
+				line-height: 50px;
+				width: 100%;
+			}
+			
+			.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+				background-color: #fff;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" id='header'>
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">产品列表</h1>
+			<span id='btnComplete' class="x-btnComplete" v-on:click='Add()'>添加</span>
+		</header>
+		<div class="mui-content mui-row mui-fullscreen" id='content'>
+			<div class="mui-col-xs-3">
+				<div id="segmentedControls" class="mui-segmented-control mui-segmented-control-inverted mui-segmented-control-vertical">
+
+					<a class="mui-control-item" :class="{ 'mui-active': isActive=i==0?true:false }" :href="'#lr'+item.id" :id="'lf'+item.id" :cateId='item.id' v-for='(item,i) in items'>{{item.name}}--id:{{item.id}}</a>
+					<!--<a class="mui-control-item" href="#content2">选项2</a>-->
+				</div>
+			</div>
+			<div id="segmentedControlContents" class="mui-col-xs-9" style="border-left: 1px solid #c8c7cc;">
+
+				<div :id="'lr'+item.id" class="mui-control-content" :class="{ 'mui-active': isActive=i==0?true:false }" v-for='(item,i) in items'>
+					<ul class="mui-table-view" id='sppList'>
+						<li class="mui-table-view-cell" :id="'li'+list.id" v-for='list in lists' v-if='item.id===list.categoryId' @tap='open_detail(list)'>
+							<div class="mui-slider-right mui-disabled">
+								<a class="mui-btn mui-btn-yellow " @tap.stop="open_updateDetail(list)">修改</a>
+								<a class="mui-btn mui-btn-red " @tap.stop="Del(list)">删除</a>
+							</div>
+							<div class="mui-slider-handle">
+								<div class="mui-table-cell">{{list.title}}--cateid:{{list.categoryId}}</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/vue.min.js"></script>
+		<script src="../js/myApp.js"></script>
+		<script>
+			mui.init();
+			var vh = new Vue({
+				el: '#header',
+			});
+
+			function Add() {
+
+				//获取当前分类
+				var cateId = document.getElementsByClassName('mui-active')[0].getAttribute('cateId');
+				console.log("cateId:" + cateId);
+
+				mui.openWindow({
+					url: 'pdtPage-add.html',
+					id: 'pdtPage-add',
+					extras: {
+						//自定义扩展参数，可以用来处理页面间传值
+						cateId: cateId
+					},
+				});
+			}
+
+			var vm = new Vue({
+				el: '#content',
+				data: {
+					items: [], //分类列表信息流数据
+					lists: [], //单页面列表信息流数据
+				},
+
+			});
+
+			loadPdtCateList();
+			loadPdtList();
+
+			function loadPdtCateList() {
+				app.pdtCateList(1, 30, function(data) {
+					vm.items = data;
+				});
+			}
+
+			function loadPdtList() {
+				app.pdtList(1, 30, function(data) {
+					vm.lists = data;
+				});
+			}
+
+			//自定义触发事件,用户添加或者修改完成后，返回到列表页面，所修改或者添加的页面是在哪个分类下，列表页就显示此分类高亮显示，并且显示此分类下的列表
+			document.addEventListener('reload', function(e) {
+				var cateId = e.detail.cateId;
+				loadPdtCateList();
+				loadPdtList();
+
+				//清除之前显示的分类和其列表
+
+				var objCons = document.querySelectorAll('.mui-control-content');
+				for(var i = 0; i < objCons.length; i++) {
+					objCons[i].classList.remove('mui-active');
+				}
+
+				var objItems = document.querySelectorAll('.mui-control-item');
+				for(var i = 0; i < objItems.length; i++) {
+					objItems[i].classList.remove('mui-active');
+				}
+
+				//显示当前添加的分类和分类下的列表（用户友好）  
+				document.getElementById('lf' + cateId).classList.add('mui-active');
+				document.getElementById('lr' + cateId).classList.add('mui-active');
+			});
+
+			var webview_add = null;
+			var webview_detail = null;
+			var webview_update = null;
+			mui.plusReady(function() {
+
+				//预加载详情页面
+				webview_detail = mui.preload({
+					url: 'pdtPage-detail.html',
+					id: 'pdtPage-detail'
+				});
+
+				//预加载修改页面
+				webview_update = mui.preload({
+					url: 'pdtPage-update.html',
+					id: 'pdtPage-update'
+				});
+
+			});
+
+			/**
+			 * 打开修改详情页面
+			 * 
+			 * @param {Object} item 当前点击的分类
+			 */
+			function open_updateDetail(item) {
+				//触发子窗口变更分类详情
+				mui.fire(webview_update, 'get_updateDetail', {
+					item: item
+				});
+				setTimeout(function() {
+					webview_update.show("slide-in-right", 300);
+				}, 150);
+			}
+
+			/**
+			 * 删除单页面
+			 */
+			function Del(item) {
+				console.log('sadas..id:' + item.id)
+				var btn = ["确定", "取消"];
+				mui.confirm('考虑好了？', '确认删除吗？', btn, function(e) {
+					if(e.index == 0) {
+						app.pdtDel(item, function(data) {
+							if(data) {
+								mui.toast('删除成功');
+								//刷新页面
+								//loadSpp();  //用此种方式发现效果不太友好
+								var child = document.getElementById('li' + item.id);
+								child.parentNode.removeChild(child);
+							}
+						});
+					}
+
+				});
+			}
+
+			/**
+			 * 打开详情页面
+			 * @param {Object} item 当前点击的单页面
+			 */
+			function open_detail(item) {
+				//触发子窗口变更分类详情
+				mui.fire(webview_detail, 'get_Detail', {
+					//直接传整个对象
+					item: item
+
+				});
+				setTimeout(function() {
+					webview_detail.show("slide-in-right", 300);
+				}, 150);
+			}
+			
+			_self = plus.webview.currentWebview();
+			
+			_self.setStyle({
+				popGesture: 'close' //开启侧滑关闭功能
+			});
+			
+		</script>
+
+	</body>
+
+</html>
